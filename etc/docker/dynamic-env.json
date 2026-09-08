@@ -1,0 +1,25 @@
+{
+  "production": true,
+  "application": {
+    "baseUrl":"http://10.22.14.117:4200",
+    "name": "Pms",
+    "logoUrl": ""
+  },
+  "oAuthConfig": {
+    "issuer": "https://10.22.14.117:44386/",
+    "redirectUri": "http://10.22.14.117:4200",
+    "clientId": "Pms_App",
+    "responseType": "code",
+    "scope": "offline_access openid profile email phone Pms"
+  },
+  "apis": {
+    "default": {
+      "url": "https://10.22.14.117:44368",
+      "rootNamespace": "Pms"
+    },
+    "AbpAccountPublic": {
+      "url": "https://10.22.14.117:44386",
+      "rootNamespace": "AbpAccountPublic"
+    }
+  }
+}

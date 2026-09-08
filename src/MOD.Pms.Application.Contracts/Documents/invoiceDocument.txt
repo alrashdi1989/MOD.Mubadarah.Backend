@@ -1,0 +1,18 @@
+        public async Task<InvoiceDto> CreateAsync(object input)
+        {
+            var invoiceInput = new InvoiceDto();
+           // var doctype = Guid.Parse("");
+            JsonConvert.PopulateObject(input.ToString(), invoiceInput);
+           var  invoice = ObjectMapper.Map<InvoiceDto, Invoice>(invoiceInput);
+            
+            //if( invoiceInput.ContentType == "pdf")
+            //{
+            //    doctype = PmsConsts.PdfDocumentTypeId;
+            //}
+            //else { doctype = PmsConsts.PhotoDocumentTypeId; }
+
+            invoice = await _invoiceRepository.InsertAsync(invoice);
+            await _documentManager.CreateDocumentAsync(invoiceInput.Content,invoice.Id, PmsConsts.PhotoDocumentTypeId, invoice.InvoiceNumber,invoiceInput.ContentType,Enums.ReffrenceDocumentType.Invoice);
+            var invoiceDto = ObjectMapper.Map<Invoice, InvoiceDto>(invoice);
+            return invoiceDto;
+        }

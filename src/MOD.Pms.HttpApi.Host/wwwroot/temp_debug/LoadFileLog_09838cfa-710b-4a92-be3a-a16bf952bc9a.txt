@@ -1,0 +1,5 @@
+First in LoadFile:/content/redlines/v7/cfbee554-70e8-70e9-0543-3a0c2c4fa17b/redline-01.js,,redline
+LoadFile:content/redlines/v7/cfbee554-70e8-70e9-0543-3a0c2c4fa17b/redline-01.js
+before check loadtype:redline loadtype.IndexO=0  updated filePath content/redlines/v7/cfbee554-70e8-70e9-0543-3a0c2c4fa17b/redline-01.js
+redline loadtype:redline  updated filePath \\mamitspmgtt01\SharedReadOnly\CadViewer/content/redlines/v7/cfbee554-70e8-70e9-0543-3a0c2c4fa17b/redline-01.js
+after ServerUrl match check: filePath: \\mamitspmgtt01\SharedReadOnly\CadViewer/content/redlines/v7/cfbee554-70e8-70e9-0543-3a0c2c4fa17b/redline-01.js

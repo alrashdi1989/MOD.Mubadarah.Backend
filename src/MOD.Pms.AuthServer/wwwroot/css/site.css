@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "DroidKufi";
+    src: url('../fonts/DroidKufi-Regular.woff') format('woff');
+}
+
+
+body {
+    font-family: 'DroidKufi';
+}

@@ -1,0 +1,24 @@
+﻿@page
+@model MOD.Pms.Pages.TenantSwitch.TenantSwitchModalModel
+@using MOD.Pms.Localization;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Pages.Abp.MultiTenancy
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy.Localization
+@inject IHtmlLocalizer<PmsResource> Localize
+@inject IHtmlLocalizer<AbpUiMultiTenancyResource> L
+@{
+    Layout = null;
+}
+<form method="post" asp-page="/TenantSwitch/MultiTenancy/TenantSwitchModal">
+    <abp-modal>
+        <abp-modal-header title="@Localize["SwitchTenant"].Value"></abp-modal-header>
+        <abp-modal-body>
+            @* @(Html.dev)*@
+            <select asp-for="Input.Name" asp-items="@Model.TenantDropDownList" class="form-control">
+                <option value="">-- @Localize["SelectTenant"] --</option>
+            </select>
+        </abp-modal-body>
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

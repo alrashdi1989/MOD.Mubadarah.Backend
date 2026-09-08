@@ -1,0 +1,3 @@
+{6a57d823-ec32-67a2-b32d-3a086bef1543}
+
+ [editorOptions]="{ pickerType: 'rollers' }"

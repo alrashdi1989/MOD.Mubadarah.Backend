@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!--<Nullable>enable</Nullable>-->
+    <RootNamespace>MOD.Pms</RootNamespace>
+  </PropertyGroup>
+
+ 
+
+  <ItemGroup>
+    <ProjectReference Include="..\MOD.Pms.EntityFrameworkCore\MOD.Pms.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MOD.Pms.HttpApi.ExternalApiClients\MOD.Pms.HttpApi.ExternalApiClients.csproj" />
+    <ProjectReference Include="..\MOD.Pms.Domain\MOD.Pms.Domain.csproj" />
+    <ProjectReference Include="..\MOD.Pms.Application.Contracts\MOD.Pms.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<PackageReference Include="Volo.Abp.Account.Application" Version="8.0.1" />-->
+    <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.BackgroundWorkers.Hangfire" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Saas.Host.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Identity.Pro.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Account.Pro.Public.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Account.Pro.Admin.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.LanguageManagement.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.TextTemplateManagement.Application" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Gdpr.Application" Version="8.0.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,493 @@
+total parameters: 7
+0,f","paramValue":"svg"},{"paramName":"last","paramValue":""},{"paramName":"extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+1,last","paramValue":""},{"paramName":"extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+2,extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+3,RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+4,TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+5,LA","paramValue":""},{"paramName":"HLALL","paramValue":""}
+6,HLALL","paramValue":""}
+WriteFile: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.dwg
+XXX https://localhost:44368/api/app/document/blob-drawing/f325da80-b87d-f6ae-a8f0-3a0c4aeb63ca
+"-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="svg"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL
+\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe  "-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="svg"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL
+New The command:  \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe "-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="svg"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL
+output>>===========================================================================
+                      AutoXchange 2023 V23.12.108 RC2  64-bit
+Copyright (c) 2017, 2018, 2019, 2020, 2021, 2022 Tailor Made Software, Ltd.
+                         All Rights Reserved
+
+     Portions Copyright (c) 1997-2016, Tailor Made Software, Ltd.
+===========================================================================
+License Key Expired
+Valid License Not Found
+
+Thank you for trying this demo of AutoXChange 2023
+Please contact sales@tailormade.com to purchase
+
+Input file: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.dwg
+Default SHX File Not Found: isocp.shx
+Unresolved XRef: 1st floor plan
+Output File Name: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg
+Cannot find SHX File, Using Default TrueType Font instead: SIMPLEX.SHX
+Entering ViewPort: 0
+Cannot find SHX File, Using Default TrueType Font instead: romand.shx
+Entering ViewPort: 0
+
+OpenFile: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg
+OpenMemoryFile: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F249744.svg
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : L   Handle: 
+---End Group : L
+---Begin Group : PCF90_2D_17   Handle: 
+---End Group : PCF90_2D_17
+---Begin Group : PD90_2D_13   Handle: 
+---End Group : PD90_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : PCF90_2D_17   Handle: 
+---End Group : PCF90_2D_17
+---Begin Group : PD80_2D_13   Handle: 
+---End Group : PD80_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : PD80_2D_17   Handle: 
+---End Group : PD80_2D_17
+---Begin Group : P80_2D_17   Handle: 
+---End Group : P80_2D_17
+---Begin Group : P90_2D_17   Handle: 
+---End Group : P90_2D_17
+---Begin Group : PD90_2D_17   Handle: 
+---End Group : PD90_2D_17
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : PCF90_2D_17   Handle: 
+---End Group : PCF90_2D_17
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : P90_2D_13   Handle: 
+---End Group : P90_2D_13
+---Begin Group : Border_20_x   Handle: 4278
+---End Group : Border_20_x
+
+Elapsed Time: 10.683 seconds
+
+error>>(none)
+ExitCode: 0
+Conversion done 
+Content location: https://localhost:44368/api/app/document/blob-drawing/f325da80-b87d-f6ae-a8f0-3a0c4aeb63ca output format: svgXX
+SVG response: {"completedAction":"svg_creation","errorCode":"E0","converter":"AutoXchange AX2017","version":"V1.00","userLabel":"fromCADViewerJS","contentLocation":"https://localhost:44368/api/app/document/blob-drawing/f325da80-b87d-f6ae-a8f0-3a0c4aeb63ca","contentResponse":"stream","contentStreamData":"https://localhost:44368/CADViewer/getFile?remainOnServer=0&fileTag=F249744&Type=svg"}

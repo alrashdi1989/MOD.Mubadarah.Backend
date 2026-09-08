@@ -1,0 +1,36 @@
+
+
+ng generate @abp/ng.schematics:proxy-add --target=PmsBackend --source=PmsFrontend
+
+
+  GetUserReportDataSource = () => {
+    return new CustomStore({
+      key: 'id',
+      load: async (loadOptions: LoadOptions<UserReportDto>) => {
+        return await this.userReportService
+          .getList(await loadOptionsStringify(loadOptions))
+          .toPromise().then(result => {
+            console.log('this.userReportService',this.userReportService)
+            return result;
+          }).catch(() => { throw 'LoadingError'; });
+        },
+        insert: (userId: string, values: string[]) => {
+           return this.userReportService.create(userId,values).toPromise();
+        },
+    
+      update: (key, values:UserReportDto) => {
+        return this.userReportService.update(key, values).toPromise();
+      },
+      remove: key => {
+    
+        return this.userReportService.delete(key).toPromise();
+      },
+    });
+  }
+
+  // myFunction(){
+  //   console.log("button")
+  //   this.userId="51895D75-084D-CB05-A720-3A08B115B73A"
+  //   this.values=["9505778E-8FDE-C073-5E92-3A097D1026C6"]
+  //    this.userReportService.create(this.userId,this.values).toPromise(); 
+  // }

@@ -1,0 +1,1627 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>MOD.Pms</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="8.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="8.0.0" />
+    <PackageReference Include="Hangfire.Core" Version="1.8.7" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.7" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="8.0.0" />
+    <PackageReference Include="DistributedLock.Redis" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Identity.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.DistributedLocking" Version="8.0.1" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="8.0.1" />
+    <ProjectReference Include="..\MOD.Pms.Application\MOD.Pms.Application.csproj" />
+    <ProjectReference Include="..\MOD.Pms.EntityFrameworkCore\MOD.Pms.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\MOD.Pms.HttpApi\MOD.Pms.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\content\redlines\v7\34f5e6e6-c69a-c21c-6ffe-3a0b7813dcd5\" />
+    <Folder Include="wwwroot\content\redlines\v7\57089426-067d-6e45-d977-3a0be996eb78\" />
+    <Folder Include="wwwroot\content\redlines\v7\76ebcb24-4243-48af-7767-3a0b3a50b4fc\" />
+    <Folder Include="wwwroot\converters\files\pdf\101156\" />
+    <Folder Include="wwwroot\converters\files\pdf\106087\" />
+    <Folder Include="wwwroot\converters\files\pdf\109561\" />
+    <Folder Include="wwwroot\converters\files\pdf\148070\" />
+    <Folder Include="wwwroot\converters\files\pdf\150113\" />
+    <Folder Include="wwwroot\converters\files\pdf\167343\" />
+    <Folder Include="wwwroot\converters\files\pdf\174424\" />
+    <Folder Include="wwwroot\converters\files\pdf\267663\" />
+    <Folder Include="wwwroot\converters\files\pdf\268242\" />
+    <Folder Include="wwwroot\converters\files\pdf\302206\" />
+    <Folder Include="wwwroot\converters\files\pdf\336829\" />
+    <Folder Include="wwwroot\converters\files\pdf\352403\" />
+    <Folder Include="wwwroot\converters\files\pdf\365810\" />
+    <Folder Include="wwwroot\converters\files\pdf\393010\" />
+    <Folder Include="wwwroot\converters\files\pdf\415399\" />
+    <Folder Include="wwwroot\converters\files\pdf\467348\" />
+    <Folder Include="wwwroot\converters\files\pdf\539701\" />
+    <Folder Include="wwwroot\converters\files\pdf\59002\" />
+    <Folder Include="wwwroot\converters\files\pdf\82830\" />
+    <Folder Include="wwwroot\converters\files\pdf\913506\" />
+    <Folder Include="wwwroot\converters\files\pdf\966963\" />
+    <Folder Include="wwwroot\temp_debug\" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <None Include="wwwroot\app\cv\cv-core\axuploader_2_19.js" />
+    <None Include="wwwroot\app\cv\cv-custom_commands\CADViewer_custom_commands.js" />
+    <None Include="wwwroot\app\cv\cv-pro\cadviewer.min.js" />
+    <None Include="wwwroot\app\cv\cv-pro\cadviewer_8.20.4.min.js" />
+    <None Include="wwwroot\app\cv\cv-pro\custom_rules_template.js" />
+    <None Include="wwwroot\app\cv\cv-pro\space\custom_settings.js" />
+    <None Include="wwwroot\app\cv\cvlicense.js" />
+    <None Include="wwwroot\app\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\app\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\app\images\singleIcons\svg\about.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\adjustlineweight.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\adjustredlineweight.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\alllayerson.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\arrow.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\background.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base150x200.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_01.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_02.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_03.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_04.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_05.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_06.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_07.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_08.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_09.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_10.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_11.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_12.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_13.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_14.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_15.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_16.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_17.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_18.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_19.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\base200x200_20.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\birdseye.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\blackwhite.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\calibrate.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\circlespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\clearall.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\clearallredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\clearimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\clearquickcounts.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\copycirclespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\about.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\adjustlineweight.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\adjustredlineweight.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\alllayerson.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\arrow.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\background.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base150x200.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_01.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_02.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_03.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_04.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_05.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_06.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_07.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_08.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_09.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_10.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_11.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_12.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_13.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_14.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_15.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_16.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_17.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_18.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_19.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\base200x200_20.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\birdseye.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\blackwhite.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\calibrate.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\circlespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\clearall.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\clearallredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\clearimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\clearquickcounts.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\copycirclespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\deletesingleredline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\deletespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\ellipsecloud.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\exitcompare.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\fileload.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\floppy.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\floppyredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\freehand.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\insertimage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\layeroff.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\layers.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\loadallimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\loadredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\loadreslines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\loadseconddrawing.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\loadspaceobjects.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\measure.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\merge.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\movespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\nextpage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\nextpagespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\polygonspaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\previouspage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\previouspagespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\print.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\qrcode.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\quickcount.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\quickcountsummary.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\rectanglespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinearrow.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinecolor.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinefilledpolygon.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinefilledrectangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinepolyline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinerectangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinestickynote.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinetext.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redlinetriangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\redolastredline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\resizespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\rotatespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\saveallimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\savepdf.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\savepdf.svg.bak" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\savesvg.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\savesvg.svg.bak" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\scaleicon.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\search.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\settings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\swaplayers.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\toggledrawings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\toggleoverlaiddrawings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\togglespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deepblue\undolastredline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deletesingleredline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\deletespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\displaydifference.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\ellipsecloud.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\exitcompare.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\fileload.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\floppy.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\floppyredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\freehand.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\insertimage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\layeroff.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\layers.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\loadallimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\loadredlines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\loadreslines.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\loadseconddrawing.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\loadspaceobjects.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\measure.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\merge.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\movespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\nextpage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\nextpagespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\polygonspaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\previouspage.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\previouspagespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\print.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\qrcode.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\quickcount.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\quickcountsummary.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\rectanglespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinearrow.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinecolor.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinefilledpolygon.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinefilledrectangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinepolyline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinerectangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinestickynote.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinetext.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redlinetriangle.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\redolastredline.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\resizespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\rotatespaceobject.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\saveallimagelinks.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\savepdf.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\savesvg.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\scaleicon.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\search.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\settings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\swaplayers.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\toggledrawings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\toggleoverlaiddrawings.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\togglespace.svg" />
+    <None Include="wwwroot\app\images\singleIcons\svg\undolastredline.svg" />
+    <None Include="wwwroot\app\js\1.4.9\angular-animate.js" />
+    <None Include="wwwroot\app\js\1.4.9\angular-route.js" />
+    <None Include="wwwroot\app\js\1.4.9\angular.js" />
+    <None Include="wwwroot\app\js\axuploader_2_19.js" />
+    <None Include="wwwroot\app\js\bootstrap-cadviewer.js" />
+    <None Include="wwwroot\app\js\bootstrap-multiselect.js" />
+    <None Include="wwwroot\app\js\bootstrap.cadviewer.js" />
+    <None Include="wwwroot\app\js\bootstrap.js" />
+    <None Include="wwwroot\app\js\bootstrap.min.js" />
+    <None Include="wwwroot\app\js\canvg.js" />
+    <None Include="wwwroot\app\js\cvjs_api_styles_2_0_26.js" />
+    <None Include="wwwroot\app\js\cvlicense.js" />
+    <None Include="wwwroot\app\js\d3.v3.min.js" />
+    <None Include="wwwroot\app\js\default.js" />
+    <None Include="wwwroot\app\js\imagetracer_v1.2.5.js" />
+    <None Include="wwwroot\app\js\init-full.js" />
+    <None Include="wwwroot\app\js\init-nodes.js" />
+    <None Include="wwwroot\app\js\init-thumb.js" />
+    <None Include="wwwroot\app\js\init.js" />
+    <None Include="wwwroot\app\js\jquery-2.2.3.js" />
+    <None Include="wwwroot\app\js\jquery-3.2.1.js" />
+    <None Include="wwwroot\app\js\jquery-3.5.1.js" />
+    <None Include="wwwroot\app\js\jquery-ui-1.11.4.min.js" />
+    <None Include="wwwroot\app\js\jquery-ui-1.13.2.min.js" />
+    <None Include="wwwroot\app\js\jquery.ajax-cross-origin.min.js" />
+    <None Include="wwwroot\app\js\jquery.qtip.min.js" />
+    <None Include="wwwroot\app\js\jquery.qtip.min_.js" />
+    <None Include="wwwroot\app\js\jscolor.js" />
+    <None Include="wwwroot\app\js\jstree\jstree.js" />
+    <None Include="wwwroot\app\js\jstree\jstree.min.js" />
+    <None Include="wwwroot\app\js\korean-korea.js" />
+    <None Include="wwwroot\app\js\language_template.js" />
+    <None Include="wwwroot\app\js\library_js_svg_path.js" />
+    <None Include="wwwroot\app\js\list.js" />
+    <None Include="wwwroot\app\js\popper.js" />
+    <None Include="wwwroot\app\js\qrcode.min.js" />
+    <None Include="wwwroot\app\js\rgbcolor.js" />
+    <None Include="wwwroot\app\js\snap.svg-min.js" />
+    <None Include="wwwroot\app\js\src\add-async.js" />
+    <None Include="wwwroot\app\js\src\filter.js" />
+    <None Include="wwwroot\app\js\src\item.js" />
+    <None Include="wwwroot\app\js\src\parse.js" />
+    <None Include="wwwroot\app\js\src\search.js" />
+    <None Include="wwwroot\app\js\src\sort.js" />
+    <None Include="wwwroot\app\js\src\templater.js" />
+    <None Include="wwwroot\app\js\src\utils\classes.js" />
+    <None Include="wwwroot\app\js\src\utils\events.js" />
+    <None Include="wwwroot\app\js\src\utils\extend.js" />
+    <None Include="wwwroot\app\js\src\utils\get-attribute.js" />
+    <None Include="wwwroot\app\js\src\utils\get-by-class.js" />
+    <None Include="wwwroot\app\js\src\utils\index-of.js" />
+    <None Include="wwwroot\app\js\src\utils\natural-sort.js" />
+    <None Include="wwwroot\app\js\src\utils\to-array.js" />
+    <None Include="wwwroot\app\js\src\utils\to-string.js" />
+    <None Include="wwwroot\app\js\StackBlur.js" />
+    <None Include="wwwroot\app\js\xml2json.js" />
+    <None Include="wwwroot\app\js\xml2json.min.js" />
+    <None Include="wwwroot\app\js\___axuploader_2_19.js" />
+    <None Include="wwwroot\app\user_resources\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\device_54.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\door_allstates01.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\forklift_01.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\forklift_02.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\guard.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\HVAC_01.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\HVAC_02.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\HVAC_03.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\HVAC_04.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\lightning.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\lightning2.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\lightning2a.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\lightning3.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\lock-padlock.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\pin_01.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\pin_02.svg" />
+    <None Include="wwwroot\content\customInsertSpaceObjectMenu\images\wifi_25.svg" />
+    <None Include="wwwroot\content\drawings\dwg\1st floor architectural.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\1st floor electrical.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\1st floor lighting.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\1st floor plan.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\1st_floor_architectural.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\Asbestos_drawing_01.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\base_xref_json.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\City_base_map.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\City_map.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\City_skyway_map.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\filenames.rw" />
+    <None Include="wwwroot\content\drawings\dwg\FloorPlan_Office3.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\Hospital 1.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\hq17.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\hq17_.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\hq17_layers.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\LI_1077929.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\LI_1077929_04.svg" />
+    <None Include="wwwroot\content\drawings\dwg\ma1000_133.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\measure_template.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\one_of_simple.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\pgrd30x42horz.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\PWR07_2.OG.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\PWR07_2.OG.pdf" />
+    <None Include="wwwroot\content\drawings\dwg\Rua_Tomas_Paes.dwg" />
+    <None Include="wwwroot\content\drawings\dwg\symap.shx" />
+    <None Include="wwwroot\content\drawings\dwg\WA4-2.dwg" />
+    <None Include="wwwroot\content\drawings\dwg_compare_drawings\filenames.rw" />
+    <None Include="wwwroot\content\drawings\dwg_compare_drawings\hq17-1.dwg" />
+    <None Include="wwwroot\content\drawings\dwg_compare_drawings\hq17-2.dwg" />
+    <None Include="wwwroot\content\drawings\js\hq17.js" />
+    <None Include="wwwroot\content\drawings\js\init.js" />
+    <None Include="wwwroot\content\drawings\pdf\CADViewer JS-AutoXchange - Generating Automated Hotspots.pdf" />
+    <None Include="wwwroot\content\drawings\pdf\CADViewer_JS.pdf" />
+    <None Include="wwwroot\content\drawings\svg\1st.svg" />
+    <None Include="wwwroot\content\drawings\svg\1st_floor_architectural.svg" />
+    <None Include="wwwroot\content\drawings\svg\1st_floor_architectural__Layout01.svg" />
+    <None Include="wwwroot\content\drawings\svg\A1.svg" />
+    <None Include="wwwroot\content\drawings\svg\device_54.svg" />
+    <None Include="wwwroot\content\drawings\svg\forklift_02.svg" />
+    <None Include="wwwroot\content\drawings\svg\H1.svg" />
+    <None Include="wwwroot\content\drawings\svg\HQ17.rl" />
+    <None Include="wwwroot\content\drawings\svg\HQ17.svg" />
+    <None Include="wwwroot\content\drawings\svg\HVAC_01.svg" />
+    <None Include="wwwroot\content\drawings\svg\HVAC_02.svg" />
+    <None Include="wwwroot\content\drawings\svg\HVAC_03.svg" />
+    <None Include="wwwroot\content\drawings\svg\HVAC_04.svg" />
+    <None Include="wwwroot\content\drawings\svg\init1.svg" />
+    <None Include="wwwroot\content\drawings\svg\LI_1077929_Apr_27_H13_9.svg" />
+    <None Include="wwwroot\content\drawings\svg\P4Test.svg" />
+    <None Include="wwwroot\content\drawings\svg\pin_01.svg" />
+    <None Include="wwwroot\content\drawings\svg\pin_02.svg" />
+    <None Include="wwwroot\content\drawings\svg\PWR59_EG_2_new.svg" />
+    <None Include="wwwroot\content\drawings\svg\Rua_Tomas_Paes.svg" />
+    <None Include="wwwroot\content\drawings\svg\wifi_25.svg" />
+    <None Include="wwwroot\content\drawings\svg\xme_sample01.svg" />
+    <None Include="wwwroot\content\drawings\svg_multipage\CADViewer_JS_1.svg" />
+    <None Include="wwwroot\content\drawings\svg_multipage\CADViewer_JS_2.svg" />
+    <None Include="wwwroot\content\drawings\svg_multipage\CADViewer_JS_3.svg" />
+    <None Include="wwwroot\content\drawings\svg_multipage\CADViewer_JS_4.svg" />
+    <None Include="wwwroot\content\inserted_image_objects\imageObjects.js" />
+    <None Include="wwwroot\content\redlines\api_650\test01.js" />
+    <None Include="wwwroot\content\redlines\fileloader_670\filenames.rw" />
+    <None Include="wwwroot\content\redlines\fileloader_670\redline-01.js" />
+    <None Include="wwwroot\content\redlines\fileloader_670\redline-test1.js" />
+    <None Include="wwwroot\content\redlines\fileloader_670\redline-test2.js" />
+    <None Include="wwwroot\content\redlines\filenames.rw" />
+    <None Include="wwwroot\content\redlines\overlay_610\filenames.rw" />
+    <None Include="wwwroot\content\redlines\overlay_610\redline_part1.js" />
+    <None Include="wwwroot\content\redlines\overlay_610\redline_part2.js" />
+    <None Include="wwwroot\content\redlines\pdf_610\filenames.rw" />
+    <None Include="wwwroot\content\redlines\pdf_610\redline_highlight.js" />
+    <None Include="wwwroot\content\redlines\v7\6efeda34-a774-e182-ff18-3a0c3c31657a\redline-01.js" />
+    <None Include="wwwroot\content\redlines\v7\9d733352-de13-1204-c702-3a0bbaab3760\redline-01.js" />
+    <None Include="wwwroot\content\redlines\v7\cfbee554-70e8-70e9-0543-3a0c2c4fa17b\redline-01.js" />
+    <None Include="wwwroot\content\spaceObjects\demoUsers\space_Asbestos_drawing_01.js" />
+    <None Include="wwwroot\content\spaceObjects\space_02b_new.js" />
+    <None Include="wwwroot\content\spaceObjects\space_Asbestos_drawing_01.js" />
+    <None Include="wwwroot\content\spaceObjects\space_City_base_map.js" />
+    <None Include="wwwroot\converters\ax2023\windows.rar" />
+    <None Include="wwwroot\converters\ax2023\windows\AutoXChange 2023 Change Log.pdf" />
+    <None Include="wwwroot\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe" />
+    <None Include="wwwroot\converters\ax2023\windows\axlic.key" />
+    <None Include="wwwroot\converters\ax2023\windows\ax_codepage_map.csv" />
+    <None Include="wwwroot\converters\ax2023\windows\desktop.ini" />
+    <None Include="wwwroot\converters\ax2023\windows\doax-dgn.bat" />
+    <None Include="wwwroot\converters\ax2023\windows\doax.bat" />
+    <None Include="wwwroot\converters\ax2023\windows\fonts\romand.shx" />
+    <None Include="wwwroot\converters\ax2023\windows\fonts\romans.shx" />
+    <None Include="wwwroot\converters\ax2023\windows\fonts\simplex.shx" />
+    <None Include="wwwroot\converters\ax2023\windows\fonts\SIMUN.SHX" />
+    <None Include="wwwroot\converters\ax2023\windows\fonts\txt.shx" />
+    <None Include="wwwroot\converters\ax2023\windows\libgfl340.dll" />
+    <None Include="wwwroot\converters\ax2023\windows\libgfle340.dll" />
+    <None Include="wwwroot\converters\ax2023\windows\msvcp140.dll" />
+    <None Include="wwwroot\converters\ax2023\windows\run_ax2020.bat" />
+    <None Include="wwwroot\converters\ax2023\windows\run_ax2020_1.bat" />
+    <None Include="wwwroot\converters\ax2023\windows\Test01.dxf" />
+    <None Include="wwwroot\converters\ax2023\windows\Test01.svg" />
+    <None Include="wwwroot\converters\ax2023\windows\vcruntime140.dll" />
+    <None Include="wwwroot\converters\ax2023\windows\ws2_32.dll" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\dm_lic.key" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\DwgMerge2023_W32_23_01_01.exe" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\libgfl340.dll" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\msvcp140.dll" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\vcruntime140.dll" />
+    <None Include="wwwroot\converters\dwgmerge2023\windows\ws2_32.dll" />
+    <None Include="wwwroot\converters\files\critical_errors.log" />
+    <None Include="wwwroot\converters\files\F100596.csv" />
+    <None Include="wwwroot\converters\files\F100596.dwg" />
+    <None Include="wwwroot\converters\files\F104549.dwg" />
+    <None Include="wwwroot\converters\files\F11.csv" />
+    <None Include="wwwroot\converters\files\F11062.csv" />
+    <None Include="wwwroot\converters\files\F11062.dwg" />
+    <None Include="wwwroot\converters\files\F112690.dwg" />
+    <None Include="wwwroot\converters\files\F114818.csv" />
+    <None Include="wwwroot\converters\files\F115191.csv" />
+    <None Include="wwwroot\converters\files\F115191.dwg" />
+    <None Include="wwwroot\converters\files\F118633.dwg" />
+    <None Include="wwwroot\converters\files\F12.csv" />
+    <None Include="wwwroot\converters\files\F120174.csv" />
+    <None Include="wwwroot\converters\files\F122106.csv" />
+    <None Include="wwwroot\converters\files\F126470.csv" />
+    <None Include="wwwroot\converters\files\F126470.dwg" />
+    <None Include="wwwroot\converters\files\F128566.dwg" />
+    <None Include="wwwroot\converters\files\F131583.csv" />
+    <None Include="wwwroot\converters\files\F134595.csv" />
+    <None Include="wwwroot\converters\files\F134595.dwg" />
+    <None Include="wwwroot\converters\files\F137460.csv" />
+    <None Include="wwwroot\converters\files\F140764.csv" />
+    <None Include="wwwroot\converters\files\F140764.dwg" />
+    <None Include="wwwroot\converters\files\F144140.csv" />
+    <None Include="wwwroot\converters\files\F144140.dwg" />
+    <None Include="wwwroot\converters\files\F148691.csv" />
+    <None Include="wwwroot\converters\files\F148691.dwg" />
+    <None Include="wwwroot\converters\files\F15.csv" />
+    <None Include="wwwroot\converters\files\F150765.dwg" />
+    <None Include="wwwroot\converters\files\F151091.csv" />
+    <None Include="wwwroot\converters\files\F152467.dwg" />
+    <None Include="wwwroot\converters\files\F152632.csv" />
+    <None Include="wwwroot\converters\files\F152632.dwg" />
+    <None Include="wwwroot\converters\files\F154671.dwg" />
+    <None Include="wwwroot\converters\files\F155200.dwg" />
+    <None Include="wwwroot\converters\files\F161532.csv" />
+    <None Include="wwwroot\converters\files\F162593.csv" />
+    <None Include="wwwroot\converters\files\F162593.dwg" />
+    <None Include="wwwroot\converters\files\F163657.csv" />
+    <None Include="wwwroot\converters\files\F163657.dwg" />
+    <None Include="wwwroot\converters\files\F163745.csv" />
+    <None Include="wwwroot\converters\files\F164052.csv" />
+    <None Include="wwwroot\converters\files\F164052.dwg" />
+    <None Include="wwwroot\converters\files\F167335.csv" />
+    <None Include="wwwroot\converters\files\F174611.csv" />
+    <None Include="wwwroot\converters\files\F176442.csv" />
+    <None Include="wwwroot\converters\files\F177312.csv" />
+    <None Include="wwwroot\converters\files\F177312.dwg" />
+    <None Include="wwwroot\converters\files\F18.csv" />
+    <None Include="wwwroot\converters\files\F184144.dwg" />
+    <None Include="wwwroot\converters\files\F184144.svg" />
+    <None Include="wwwroot\converters\files\F185140.csv" />
+    <None Include="wwwroot\converters\files\F185140.dwg" />
+    <None Include="wwwroot\converters\files\F188515.csv" />
+    <None Include="wwwroot\converters\files\F19.csv" />
+    <None Include="wwwroot\converters\files\F191227.csv" />
+    <None Include="wwwroot\converters\files\F191227.dwg" />
+    <None Include="wwwroot\converters\files\F193088.dwg" />
+    <None Include="wwwroot\converters\files\F195576.dwg" />
+    <None Include="wwwroot\converters\files\F196409.csv" />
+    <None Include="wwwroot\converters\files\F196409.dwg" />
+    <None Include="wwwroot\converters\files\F196409.svg" />
+    <None Include="wwwroot\converters\files\F200229.csv" />
+    <None Include="wwwroot\converters\files\F200801.csv" />
+    <None Include="wwwroot\converters\files\F200801.dwg" />
+    <None Include="wwwroot\converters\files\F203005.csv" />
+    <None Include="wwwroot\converters\files\F203164.csv" />
+    <None Include="wwwroot\converters\files\F203164.dwg" />
+    <None Include="wwwroot\converters\files\F21.csv" />
+    <None Include="wwwroot\converters\files\F210343.csv" />
+    <None Include="wwwroot\converters\files\F212601.dwg" />
+    <None Include="wwwroot\converters\files\F220034.csv" />
+    <None Include="wwwroot\converters\files\F224955.csv" />
+    <None Include="wwwroot\converters\files\F224955.svg" />
+    <None Include="wwwroot\converters\files\F226441.csv" />
+    <None Include="wwwroot\converters\files\F226441.dwg" />
+    <None Include="wwwroot\converters\files\F229113.csv" />
+    <None Include="wwwroot\converters\files\F229113.dwg" />
+    <None Include="wwwroot\converters\files\F231774.csv" />
+    <None Include="wwwroot\converters\files\F231774.dwg" />
+    <None Include="wwwroot\converters\files\F234573.csv" />
+    <None Include="wwwroot\converters\files\F237649.dwg" />
+    <None Include="wwwroot\converters\files\F241390.csv" />
+    <None Include="wwwroot\converters\files\F241390.dwg" />
+    <None Include="wwwroot\converters\files\F241390.svg" />
+    <None Include="wwwroot\converters\files\F249069.csv" />
+    <None Include="wwwroot\converters\files\F249069.dwg" />
+    <None Include="wwwroot\converters\files\F249744.csv" />
+    <None Include="wwwroot\converters\files\F249744.dwg" />
+    <None Include="wwwroot\converters\files\F25.csv" />
+    <None Include="wwwroot\converters\files\F25013.csv" />
+    <None Include="wwwroot\converters\files\F25013.dwg" />
+    <None Include="wwwroot\converters\files\F25170.csv" />
+    <None Include="wwwroot\converters\files\F255521.csv" />
+    <None Include="wwwroot\converters\files\F255521.dwg" />
+    <None Include="wwwroot\converters\files\F25707.csv" />
+    <None Include="wwwroot\converters\files\F25707.dwg" />
+    <None Include="wwwroot\converters\files\F258309.dwg" />
+    <None Include="wwwroot\converters\files\F259193.dwg" />
+    <None Include="wwwroot\converters\files\F263663.dwg" />
+    <None Include="wwwroot\converters\files\F264554.csv" />
+    <None Include="wwwroot\converters\files\F264554.dwg" />
+    <None Include="wwwroot\converters\files\F265201.csv" />
+    <None Include="wwwroot\converters\files\F265201.dwg" />
+    <None Include="wwwroot\converters\files\F268150.csv" />
+    <None Include="wwwroot\converters\files\F268150.dwg" />
+    <None Include="wwwroot\converters\files\F27.csv" />
+    <None Include="wwwroot\converters\files\F270172.dwg" />
+    <None Include="wwwroot\converters\files\F274225.csv" />
+    <None Include="wwwroot\converters\files\F274225.dwg" />
+    <None Include="wwwroot\converters\files\F277063.dwg" />
+    <None Include="wwwroot\converters\files\F28015.csv" />
+    <None Include="wwwroot\converters\files\F28015.dwg" />
+    <None Include="wwwroot\converters\files\F281299.csv" />
+    <None Include="wwwroot\converters\files\F281299.dwg" />
+    <None Include="wwwroot\converters\files\F281299.svg" />
+    <None Include="wwwroot\converters\files\F289148.dwg" />
+    <None Include="wwwroot\converters\files\F29.csv" />
+    <None Include="wwwroot\converters\files\F290484.csv" />
+    <None Include="wwwroot\converters\files\F290484.dwg" />
+    <None Include="wwwroot\converters\files\F291569.dwg" />
+    <None Include="wwwroot\converters\files\F294233.csv" />
+    <None Include="wwwroot\converters\files\F299493.csv" />
+    <None Include="wwwroot\converters\files\F299959.csv" />
+    <None Include="wwwroot\converters\files\F299959.dwg" />
+    <None Include="wwwroot\converters\files\F3.csv" />
+    <None Include="wwwroot\converters\files\F301972.csv" />
+    <None Include="wwwroot\converters\files\F302934.dwg" />
+    <None Include="wwwroot\converters\files\F304637.csv" />
+    <None Include="wwwroot\converters\files\F306616.csv" />
+    <None Include="wwwroot\converters\files\F306616.dwg" />
+    <None Include="wwwroot\converters\files\F309895.csv" />
+    <None Include="wwwroot\converters\files\F310449.csv" />
+    <None Include="wwwroot\converters\files\F310449.dwg" />
+    <None Include="wwwroot\converters\files\F311757.csv" />
+    <None Include="wwwroot\converters\files\F315052.csv" />
+    <None Include="wwwroot\converters\files\F315052.dwg" />
+    <None Include="wwwroot\converters\files\F318101.csv" />
+    <None Include="wwwroot\converters\files\F318101.dwg" />
+    <None Include="wwwroot\converters\files\F32.csv" />
+    <None Include="wwwroot\converters\files\F321267.csv" />
+    <None Include="wwwroot\converters\files\F321413.dwg" />
+    <None Include="wwwroot\converters\files\F32605.dwg" />
+    <None Include="wwwroot\converters\files\F326207.csv" />
+    <None Include="wwwroot\converters\files\F326207.dwg" />
+    <None Include="wwwroot\converters\files\F328911.dwg" />
+    <None Include="wwwroot\converters\files\F33.csv" />
+    <None Include="wwwroot\converters\files\F330167.csv" />
+    <None Include="wwwroot\converters\files\F330167.dwg" />
+    <None Include="wwwroot\converters\files\F336515.csv" />
+    <None Include="wwwroot\converters\files\F336515.dwg" />
+    <None Include="wwwroot\converters\files\F339870.dwg" />
+    <None Include="wwwroot\converters\files\F34.csv" />
+    <None Include="wwwroot\converters\files\F341890.dwg" />
+    <None Include="wwwroot\converters\files\F345906.csv" />
+    <None Include="wwwroot\converters\files\F346986.csv" />
+    <None Include="wwwroot\converters\files\F346986.dwg" />
+    <None Include="wwwroot\converters\files\F34837.csv" />
+    <None Include="wwwroot\converters\files\F36.csv" />
+    <None Include="wwwroot\converters\files\F364057.dwg" />
+    <None Include="wwwroot\converters\files\F368192.dwg" />
+    <None Include="wwwroot\converters\files\F368814.csv" />
+    <None Include="wwwroot\converters\files\F368814.dwg" />
+    <None Include="wwwroot\converters\files\F370513.csv" />
+    <None Include="wwwroot\converters\files\F370513.dwg" />
+    <None Include="wwwroot\converters\files\F380648.csv" />
+    <None Include="wwwroot\converters\files\F380648.dwg" />
+    <None Include="wwwroot\converters\files\F383182.csv" />
+    <None Include="wwwroot\converters\files\F383182.dwg" />
+    <None Include="wwwroot\converters\files\F383182.svg" />
+    <None Include="wwwroot\converters\files\F383499.csv" />
+    <None Include="wwwroot\converters\files\F388130.csv" />
+    <None Include="wwwroot\converters\files\F388130.dwg" />
+    <None Include="wwwroot\converters\files\F389806.csv" />
+    <None Include="wwwroot\converters\files\F389806.dwg" />
+    <None Include="wwwroot\converters\files\F390869.csv" />
+    <None Include="wwwroot\converters\files\F390869.dwg" />
+    <None Include="wwwroot\converters\files\F3924.dwg" />
+    <None Include="wwwroot\converters\files\F396290.csv" />
+    <None Include="wwwroot\converters\files\F396290.dwg" />
+    <None Include="wwwroot\converters\files\F398698.csv" />
+    <None Include="wwwroot\converters\files\F402656.csv" />
+    <None Include="wwwroot\converters\files\F402656.dwg" />
+    <None Include="wwwroot\converters\files\F402808.csv" />
+    <None Include="wwwroot\converters\files\F402808.dwg" />
+    <None Include="wwwroot\converters\files\F409367.csv" />
+    <None Include="wwwroot\converters\files\F414380.csv" />
+    <None Include="wwwroot\converters\files\F417430.csv" />
+    <None Include="wwwroot\converters\files\F42.csv" />
+    <None Include="wwwroot\converters\files\F420176.dwg" />
+    <None Include="wwwroot\converters\files\F420655.dwg" />
+    <None Include="wwwroot\converters\files\F423038.dwg" />
+    <None Include="wwwroot\converters\files\F424656.csv" />
+    <None Include="wwwroot\converters\files\F424656.dwg" />
+    <None Include="wwwroot\converters\files\F426568.dwg" />
+    <None Include="wwwroot\converters\files\F427674.csv" />
+    <None Include="wwwroot\converters\files\F427674.dwg" />
+    <None Include="wwwroot\converters\files\F430041.csv" />
+    <None Include="wwwroot\converters\files\F430041.dwg" />
+    <None Include="wwwroot\converters\files\F431160.dwg" />
+    <None Include="wwwroot\converters\files\F438214.csv" />
+    <None Include="wwwroot\converters\files\F438214.dwg" />
+    <None Include="wwwroot\converters\files\F438910.csv" />
+    <None Include="wwwroot\converters\files\F438910.dwg" />
+    <None Include="wwwroot\converters\files\F443401.csv" />
+    <None Include="wwwroot\converters\files\F443401.dwg" />
+    <None Include="wwwroot\converters\files\F445031.csv" />
+    <None Include="wwwroot\converters\files\F445031.dwg" />
+    <None Include="wwwroot\converters\files\F452666.csv" />
+    <None Include="wwwroot\converters\files\F452666.dwg" />
+    <None Include="wwwroot\converters\files\F454607.csv" />
+    <None Include="wwwroot\converters\files\F456123.csv" />
+    <None Include="wwwroot\converters\files\F456123.dwg" />
+    <None Include="wwwroot\converters\files\F458480.csv" />
+    <None Include="wwwroot\converters\files\F459058.dwg" />
+    <None Include="wwwroot\converters\files\F461972.csv" />
+    <None Include="wwwroot\converters\files\F465969.csv" />
+    <None Include="wwwroot\converters\files\F465969.dwg" />
+    <None Include="wwwroot\converters\files\F465969.svg" />
+    <None Include="wwwroot\converters\files\F469291.csv" />
+    <None Include="wwwroot\converters\files\F469829.csv" />
+    <None Include="wwwroot\converters\files\F469829.dwg" />
+    <None Include="wwwroot\converters\files\F47.csv" />
+    <None Include="wwwroot\converters\files\F471861.csv" />
+    <None Include="wwwroot\converters\files\F471861.dwg" />
+    <None Include="wwwroot\converters\files\F471892.csv" />
+    <None Include="wwwroot\converters\files\F473717.dwg" />
+    <None Include="wwwroot\converters\files\F478363.csv" />
+    <None Include="wwwroot\converters\files\F478363.dwg" />
+    <None Include="wwwroot\converters\files\F482373.csv" />
+    <None Include="wwwroot\converters\files\F482373.dwg" />
+    <None Include="wwwroot\converters\files\F482373.svg" />
+    <None Include="wwwroot\converters\files\F484215.csv" />
+    <None Include="wwwroot\converters\files\F484215.dwg" />
+    <None Include="wwwroot\converters\files\F484688.dwg" />
+    <None Include="wwwroot\converters\files\F48546.csv" />
+    <None Include="wwwroot\converters\files\F48546.dwg" />
+    <None Include="wwwroot\converters\files\F49.csv" />
+    <None Include="wwwroot\converters\files\F491026.csv" />
+    <None Include="wwwroot\converters\files\F491852.csv" />
+    <None Include="wwwroot\converters\files\F493276.dwg" />
+    <None Include="wwwroot\converters\files\F493320.csv" />
+    <None Include="wwwroot\converters\files\F495386.csv" />
+    <None Include="wwwroot\converters\files\F496779.dwg" />
+    <None Include="wwwroot\converters\files\F497814.csv" />
+    <None Include="wwwroot\converters\files\F497814.dwg" />
+    <None Include="wwwroot\converters\files\F498695.csv" />
+    <None Include="wwwroot\converters\files\F500870.csv" />
+    <None Include="wwwroot\converters\files\F503452.csv" />
+    <None Include="wwwroot\converters\files\F50399.dwg" />
+    <None Include="wwwroot\converters\files\F504666.csv" />
+    <None Include="wwwroot\converters\files\F504666.dwg" />
+    <None Include="wwwroot\converters\files\F50470.dwg" />
+    <None Include="wwwroot\converters\files\F505465.csv" />
+    <None Include="wwwroot\converters\files\F505465.dwg" />
+    <None Include="wwwroot\converters\files\F511776.csv" />
+    <None Include="wwwroot\converters\files\F515754.csv" />
+    <None Include="wwwroot\converters\files\F515754.dwg" />
+    <None Include="wwwroot\converters\files\F516515.dwg" />
+    <None Include="wwwroot\converters\files\F518271.dwg" />
+    <None Include="wwwroot\converters\files\F523890.csv" />
+    <None Include="wwwroot\converters\files\F523890.dwg" />
+    <None Include="wwwroot\converters\files\F52580.csv" />
+    <None Include="wwwroot\converters\files\F529994.csv" />
+    <None Include="wwwroot\converters\files\F531965.csv" />
+    <None Include="wwwroot\converters\files\F53398.csv" />
+    <None Include="wwwroot\converters\files\F53398.dwg" />
+    <None Include="wwwroot\converters\files\F536301.csv" />
+    <None Include="wwwroot\converters\files\F536301.dwg" />
+    <None Include="wwwroot\converters\files\F536391.csv" />
+    <None Include="wwwroot\converters\files\F538299.csv" />
+    <None Include="wwwroot\converters\files\F538299.dwg" />
+    <None Include="wwwroot\converters\files\F543936.csv" />
+    <None Include="wwwroot\converters\files\F547680.dwg" />
+    <None Include="wwwroot\converters\files\F55.csv" />
+    <None Include="wwwroot\converters\files\F55327.csv" />
+    <None Include="wwwroot\converters\files\F55327.dwg" />
+    <None Include="wwwroot\converters\files\F553344.csv" />
+    <None Include="wwwroot\converters\files\F553655.dwg" />
+    <None Include="wwwroot\converters\files\F56.csv" />
+    <None Include="wwwroot\converters\files\F562001.dwg" />
+    <None Include="wwwroot\converters\files\F563518.dwg" />
+    <None Include="wwwroot\converters\files\F567478.csv" />
+    <None Include="wwwroot\converters\files\F567478.dwg" />
+    <None Include="wwwroot\converters\files\F567928.csv" />
+    <None Include="wwwroot\converters\files\F567928.dwg" />
+    <None Include="wwwroot\converters\files\F569478.dwg" />
+    <None Include="wwwroot\converters\files\F569478.svg" />
+    <None Include="wwwroot\converters\files\F572355.csv" />
+    <None Include="wwwroot\converters\files\F573554.csv" />
+    <None Include="wwwroot\converters\files\F573554.dwg" />
+    <None Include="wwwroot\converters\files\F575709.csv" />
+    <None Include="wwwroot\converters\files\F58.csv" />
+    <None Include="wwwroot\converters\files\F580398.csv" />
+    <None Include="wwwroot\converters\files\F580398.dwg" />
+    <None Include="wwwroot\converters\files\F583674.dwg" />
+    <None Include="wwwroot\converters\files\F584282.csv" />
+    <None Include="wwwroot\converters\files\F585253.csv" />
+    <None Include="wwwroot\converters\files\F585818.dwg" />
+    <None Include="wwwroot\converters\files\F586198.csv" />
+    <None Include="wwwroot\converters\files\F586198.dwg" />
+    <None Include="wwwroot\converters\files\F588742.csv" />
+    <None Include="wwwroot\converters\files\F588742.dwg" />
+    <None Include="wwwroot\converters\files\F588742.svg" />
+    <None Include="wwwroot\converters\files\F589342.csv" />
+    <None Include="wwwroot\converters\files\F590417.csv" />
+    <None Include="wwwroot\converters\files\F59194.csv" />
+    <None Include="wwwroot\converters\files\F59194.svg" />
+    <None Include="wwwroot\converters\files\F592840.csv" />
+    <None Include="wwwroot\converters\files\F597692.csv" />
+    <None Include="wwwroot\converters\files\F597692.dwg" />
+    <None Include="wwwroot\converters\files\F597692.svg" />
+    <None Include="wwwroot\converters\files\F599076.csv" />
+    <None Include="wwwroot\converters\files\F599076.dwg" />
+    <None Include="wwwroot\converters\files\F6.csv" />
+    <None Include="wwwroot\converters\files\F601038.csv" />
+    <None Include="wwwroot\converters\files\F601038.dwg" />
+    <None Include="wwwroot\converters\files\F605556.csv" />
+    <None Include="wwwroot\converters\files\F605556.dwg" />
+    <None Include="wwwroot\converters\files\F606132.csv" />
+    <None Include="wwwroot\converters\files\F608568.csv" />
+    <None Include="wwwroot\converters\files\F608568.dwg" />
+    <None Include="wwwroot\converters\files\F61.csv" />
+    <None Include="wwwroot\converters\files\F610176.dwg" />
+    <None Include="wwwroot\converters\files\F610660.dwg" />
+    <None Include="wwwroot\converters\files\F612805.csv" />
+    <None Include="wwwroot\converters\files\F615873.csv" />
+    <None Include="wwwroot\converters\files\F616084.csv" />
+    <None Include="wwwroot\converters\files\F616084.dwg" />
+    <None Include="wwwroot\converters\files\F616084.svg" />
+    <None Include="wwwroot\converters\files\F624601.csv" />
+    <None Include="wwwroot\converters\files\F624601.dwg" />
+    <None Include="wwwroot\converters\files\F624601.svg" />
+    <None Include="wwwroot\converters\files\F62994.csv" />
+    <None Include="wwwroot\converters\files\F62994.dwg" />
+    <None Include="wwwroot\converters\files\F632787.csv" />
+    <None Include="wwwroot\converters\files\F632787.dwg" />
+    <None Include="wwwroot\converters\files\F632787.svg" />
+    <None Include="wwwroot\converters\files\F636265.csv" />
+    <None Include="wwwroot\converters\files\F636265.dwg" />
+    <None Include="wwwroot\converters\files\F63686.dwg" />
+    <None Include="wwwroot\converters\files\F63840.csv" />
+    <None Include="wwwroot\converters\files\F639152.csv" />
+    <None Include="wwwroot\converters\files\F639152.dwg" />
+    <None Include="wwwroot\converters\files\F640217.csv" />
+    <None Include="wwwroot\converters\files\F640217.dwg" />
+    <None Include="wwwroot\converters\files\F640467.csv" />
+    <None Include="wwwroot\converters\files\F640467.dwg" />
+    <None Include="wwwroot\converters\files\F64950.csv" />
+    <None Include="wwwroot\converters\files\F65.csv" />
+    <None Include="wwwroot\converters\files\F650653.csv" />
+    <None Include="wwwroot\converters\files\F650653.dwg" />
+    <None Include="wwwroot\converters\files\F650986.csv" />
+    <None Include="wwwroot\converters\files\F650986.dwg" />
+    <None Include="wwwroot\converters\files\F651226.csv" />
+    <None Include="wwwroot\converters\files\F652983.dwg" />
+    <None Include="wwwroot\converters\files\F654042.csv" />
+    <None Include="wwwroot\converters\files\F658834.csv" />
+    <None Include="wwwroot\converters\files\F658834.dwg" />
+    <None Include="wwwroot\converters\files\F66.csv" />
+    <None Include="wwwroot\converters\files\F660540.dwg" />
+    <None Include="wwwroot\converters\files\F670573.dwg" />
+    <None Include="wwwroot\converters\files\F675235.csv" />
+    <None Include="wwwroot\converters\files\F675235.dwg" />
+    <None Include="wwwroot\converters\files\F678443.csv" />
+    <None Include="wwwroot\converters\files\F678443.dwg" />
+    <None Include="wwwroot\converters\files\F678814.csv" />
+    <None Include="wwwroot\converters\files\F678814.dwg" />
+    <None Include="wwwroot\converters\files\F678814.svg" />
+    <None Include="wwwroot\converters\files\F685600.dwg" />
+    <None Include="wwwroot\converters\files\F686703.csv" />
+    <None Include="wwwroot\converters\files\F699234.csv" />
+    <None Include="wwwroot\converters\files\F699907.csv" />
+    <None Include="wwwroot\converters\files\F699907.dwg" />
+    <None Include="wwwroot\converters\files\F7.csv" />
+    <None Include="wwwroot\converters\files\F70.csv" />
+    <None Include="wwwroot\converters\files\F700576.dwg" />
+    <None Include="wwwroot\converters\files\F700576.svg" />
+    <None Include="wwwroot\converters\files\F701499.csv" />
+    <None Include="wwwroot\converters\files\F701499.dwg" />
+    <None Include="wwwroot\converters\files\F703590.csv" />
+    <None Include="wwwroot\converters\files\F709742.csv" />
+    <None Include="wwwroot\converters\files\F711577.csv" />
+    <None Include="wwwroot\converters\files\F711577.dwg" />
+    <None Include="wwwroot\converters\files\F712292.csv" />
+    <None Include="wwwroot\converters\files\F712292.dwg" />
+    <None Include="wwwroot\converters\files\F713761.csv" />
+    <None Include="wwwroot\converters\files\F714763.csv" />
+    <None Include="wwwroot\converters\files\F715573.csv" />
+    <None Include="wwwroot\converters\files\F715573.dwg" />
+    <None Include="wwwroot\converters\files\F716834.csv" />
+    <None Include="wwwroot\converters\files\F716834.dwg" />
+    <None Include="wwwroot\converters\files\F716834.svg" />
+    <None Include="wwwroot\converters\files\F718596.csv" />
+    <None Include="wwwroot\converters\files\F72326.csv" />
+    <None Include="wwwroot\converters\files\F725837.csv" />
+    <None Include="wwwroot\converters\files\F725837.dwg" />
+    <None Include="wwwroot\converters\files\F726067.csv" />
+    <None Include="wwwroot\converters\files\F726067.dwg" />
+    <None Include="wwwroot\converters\files\F73739.csv" />
+    <None Include="wwwroot\converters\files\F73739.dwg" />
+    <None Include="wwwroot\converters\files\F741448.csv" />
+    <None Include="wwwroot\converters\files\F741448.dwg" />
+    <None Include="wwwroot\converters\files\F743834.csv" />
+    <None Include="wwwroot\converters\files\F743834.dwg" />
+    <None Include="wwwroot\converters\files\F744129.csv" />
+    <None Include="wwwroot\converters\files\F744129.dwg" />
+    <None Include="wwwroot\converters\files\F74723.dwg" />
+    <None Include="wwwroot\converters\files\F749330.csv" />
+    <None Include="wwwroot\converters\files\F749330.dwg" />
+    <None Include="wwwroot\converters\files\F74956.csv" />
+    <None Include="wwwroot\converters\files\F74956.dwg" />
+    <None Include="wwwroot\converters\files\F75.csv" />
+    <None Include="wwwroot\converters\files\F750380.csv" />
+    <None Include="wwwroot\converters\files\F750380.dwg" />
+    <None Include="wwwroot\converters\files\F752117.dwg" />
+    <None Include="wwwroot\converters\files\F752279.csv" />
+    <None Include="wwwroot\converters\files\F752279.dwg" />
+    <None Include="wwwroot\converters\files\F753221.csv" />
+    <None Include="wwwroot\converters\files\F753857.dwg" />
+    <None Include="wwwroot\converters\files\F75675.csv" />
+    <None Include="wwwroot\converters\files\F75675.dwg" />
+    <None Include="wwwroot\converters\files\F759196.csv" />
+    <None Include="wwwroot\converters\files\F76.csv" />
+    <None Include="wwwroot\converters\files\F764966.dwg" />
+    <None Include="wwwroot\converters\files\F769514.dwg" />
+    <None Include="wwwroot\converters\files\F77028.csv" />
+    <None Include="wwwroot\converters\files\F77028.dwg" />
+    <None Include="wwwroot\converters\files\F772223.csv" />
+    <None Include="wwwroot\converters\files\F772223.dwg" />
+    <None Include="wwwroot\converters\files\F773566.dwg" />
+    <None Include="wwwroot\converters\files\F779776.csv" />
+    <None Include="wwwroot\converters\files\F779776.dwg" />
+    <None Include="wwwroot\converters\files\F784825.csv" />
+    <None Include="wwwroot\converters\files\F7877.csv" />
+    <None Include="wwwroot\converters\files\F7877.dwg" />
+    <None Include="wwwroot\converters\files\F788549.dwg" />
+    <None Include="wwwroot\converters\files\F79.csv" />
+    <None Include="wwwroot\converters\files\F792064.csv" />
+    <None Include="wwwroot\converters\files\F792064.dwg" />
+    <None Include="wwwroot\converters\files\F792498.csv" />
+    <None Include="wwwroot\converters\files\F792498.dwg" />
+    <None Include="wwwroot\converters\files\F795637.dwg" />
+    <None Include="wwwroot\converters\files\F796398.dwg" />
+    <None Include="wwwroot\converters\files\F799384.csv" />
+    <None Include="wwwroot\converters\files\F801571.csv" />
+    <None Include="wwwroot\converters\files\F801571.dwg" />
+    <None Include="wwwroot\converters\files\F805234.csv" />
+    <None Include="wwwroot\converters\files\F806257.dwg" />
+    <None Include="wwwroot\converters\files\F806745.csv" />
+    <None Include="wwwroot\converters\files\F806745.dwg" />
+    <None Include="wwwroot\converters\files\F807807.csv" />
+    <None Include="wwwroot\converters\files\F81.csv" />
+    <None Include="wwwroot\converters\files\F810825.dwg" />
+    <None Include="wwwroot\converters\files\F810932.dwg" />
+    <None Include="wwwroot\converters\files\F813791.csv" />
+    <None Include="wwwroot\converters\files\F815749.csv" />
+    <None Include="wwwroot\converters\files\F815749.dwg" />
+    <None Include="wwwroot\converters\files\F81639.svg" />
+    <None Include="wwwroot\converters\files\F818007.csv" />
+    <None Include="wwwroot\converters\files\F818007.dwg" />
+    <None Include="wwwroot\converters\files\F818007.svg" />
+    <None Include="wwwroot\converters\files\F824374.csv" />
+    <None Include="wwwroot\converters\files\F824374.dwg" />
+    <None Include="wwwroot\converters\files\F829304.dwg" />
+    <None Include="wwwroot\converters\files\F82947.csv" />
+    <None Include="wwwroot\converters\files\F833631.csv" />
+    <None Include="wwwroot\converters\files\F836219.csv" />
+    <None Include="wwwroot\converters\files\F836219.dwg" />
+    <None Include="wwwroot\converters\files\F836522.csv" />
+    <None Include="wwwroot\converters\files\F836522.dwg" />
+    <None Include="wwwroot\converters\files\F84.csv" />
+    <None Include="wwwroot\converters\files\F840474.csv" />
+    <None Include="wwwroot\converters\files\F843328.dwg" />
+    <None Include="wwwroot\converters\files\F843912.csv" />
+    <None Include="wwwroot\converters\files\F843912.dwg" />
+    <None Include="wwwroot\converters\files\F843912.svg" />
+    <None Include="wwwroot\converters\files\F844970.dwg" />
+    <None Include="wwwroot\converters\files\F848268.csv" />
+    <None Include="wwwroot\converters\files\F848268.dwg" />
+    <None Include="wwwroot\converters\files\F85002.csv" />
+    <None Include="wwwroot\converters\files\F85002.dwg" />
+    <None Include="wwwroot\converters\files\F854773.csv" />
+    <None Include="wwwroot\converters\files\F854773.dwg" />
+    <None Include="wwwroot\converters\files\F855199.dwg" />
+    <None Include="wwwroot\converters\files\F856164.csv" />
+    <None Include="wwwroot\converters\files\F857931.csv" />
+    <None Include="wwwroot\converters\files\F857931.dwg" />
+    <None Include="wwwroot\converters\files\F861592.csv" />
+    <None Include="wwwroot\converters\files\F86289.csv" />
+    <None Include="wwwroot\converters\files\F863918.csv" />
+    <None Include="wwwroot\converters\files\F863918.dwg" />
+    <None Include="wwwroot\converters\files\F868105.csv" />
+    <None Include="wwwroot\converters\files\F868105.dwg" />
+    <None Include="wwwroot\converters\files\F869090.csv" />
+    <None Include="wwwroot\converters\files\F869090.dwg" />
+    <None Include="wwwroot\converters\files\F870293.csv" />
+    <None Include="wwwroot\converters\files\F870293.dwg" />
+    <None Include="wwwroot\converters\files\F872120.csv" />
+    <None Include="wwwroot\converters\files\F872120.dwg" />
+    <None Include="wwwroot\converters\files\F872640.csv" />
+    <None Include="wwwroot\converters\files\F872640.dwg" />
+    <None Include="wwwroot\converters\files\F880229.csv" />
+    <None Include="wwwroot\converters\files\F880229.dwg" />
+    <None Include="wwwroot\converters\files\F880878.csv" />
+    <None Include="wwwroot\converters\files\F880878.dwg" />
+    <None Include="wwwroot\converters\files\F881505.csv" />
+    <None Include="wwwroot\converters\files\F881505.dwg" />
+    <None Include="wwwroot\converters\files\F883448.csv" />
+    <None Include="wwwroot\converters\files\F883448.dwg" />
+    <None Include="wwwroot\converters\files\F890309.csv" />
+    <None Include="wwwroot\converters\files\F8906.csv" />
+    <None Include="wwwroot\converters\files\F8906.dwg" />
+    <None Include="wwwroot\converters\files\F890829.csv" />
+    <None Include="wwwroot\converters\files\F890829.dwg" />
+    <None Include="wwwroot\converters\files\F891311.csv" />
+    <None Include="wwwroot\converters\files\F892031.csv" />
+    <None Include="wwwroot\converters\files\F892031.dwg" />
+    <None Include="wwwroot\converters\files\F892031.svg" />
+    <None Include="wwwroot\converters\files\F892619.csv" />
+    <None Include="wwwroot\converters\files\F895928.csv" />
+    <None Include="wwwroot\converters\files\F896717.dwg" />
+    <None Include="wwwroot\converters\files\F898416.csv" />
+    <None Include="wwwroot\converters\files\F899177.dwg" />
+    <None Include="wwwroot\converters\files\F90.csv" />
+    <None Include="wwwroot\converters\files\F900519.dwg" />
+    <None Include="wwwroot\converters\files\F900856.csv" />
+    <None Include="wwwroot\converters\files\F901467.dwg" />
+    <None Include="wwwroot\converters\files\F901523.csv" />
+    <None Include="wwwroot\converters\files\F901523.dwg" />
+    <None Include="wwwroot\converters\files\F901523.svg" />
+    <None Include="wwwroot\converters\files\F903160.csv" />
+    <None Include="wwwroot\converters\files\F907600.csv" />
+    <None Include="wwwroot\converters\files\F907600.dwg" />
+    <None Include="wwwroot\converters\files\F908741.csv" />
+    <None Include="wwwroot\converters\files\F908741.dwg" />
+    <None Include="wwwroot\converters\files\F91.csv" />
+    <None Include="wwwroot\converters\files\F910181.csv" />
+    <None Include="wwwroot\converters\files\F910383.csv" />
+    <None Include="wwwroot\converters\files\F910383.dwg" />
+    <None Include="wwwroot\converters\files\F911631.csv" />
+    <None Include="wwwroot\converters\files\F911631.dwg" />
+    <None Include="wwwroot\converters\files\F914484.dwg" />
+    <None Include="wwwroot\converters\files\F916929.dwg" />
+    <None Include="wwwroot\converters\files\F923100.csv" />
+    <None Include="wwwroot\converters\files\F923483.dwg" />
+    <None Include="wwwroot\converters\files\F923559.csv" />
+    <None Include="wwwroot\converters\files\F923559.dwg" />
+    <None Include="wwwroot\converters\files\F924431.csv" />
+    <None Include="wwwroot\converters\files\F924431.dwg" />
+    <None Include="wwwroot\converters\files\F933436.csv" />
+    <None Include="wwwroot\converters\files\F934162.csv" />
+    <None Include="wwwroot\converters\files\F939092.csv" />
+    <None Include="wwwroot\converters\files\F940179.csv" />
+    <None Include="wwwroot\converters\files\F940179.dwg" />
+    <None Include="wwwroot\converters\files\F946325.csv" />
+    <None Include="wwwroot\converters\files\F946325.dwg" />
+    <None Include="wwwroot\converters\files\F946806.csv" />
+    <None Include="wwwroot\converters\files\F946806.dwg" />
+    <None Include="wwwroot\converters\files\F948040.csv" />
+    <None Include="wwwroot\converters\files\F948040.dwg" />
+    <None Include="wwwroot\converters\files\F95476.csv" />
+    <None Include="wwwroot\converters\files\F955894.dwg" />
+    <None Include="wwwroot\converters\files\F956674.csv" />
+    <None Include="wwwroot\converters\files\F960102.csv" />
+    <None Include="wwwroot\converters\files\F962466.csv" />
+    <None Include="wwwroot\converters\files\F962466.dwg" />
+    <None Include="wwwroot\converters\files\F965821.csv" />
+    <None Include="wwwroot\converters\files\F965821.dwg" />
+    <None Include="wwwroot\converters\files\F969058.csv" />
+    <None Include="wwwroot\converters\files\F969058.dwg" />
+    <None Include="wwwroot\converters\files\F969321.csv" />
+    <None Include="wwwroot\converters\files\F969978.csv" />
+    <None Include="wwwroot\converters\files\F969978.dwg" />
+    <None Include="wwwroot\converters\files\F972322.csv" />
+    <None Include="wwwroot\converters\files\F972322.dwg" />
+    <None Include="wwwroot\converters\files\F975551.csv" />
+    <None Include="wwwroot\converters\files\F975551.dwg" />
+    <None Include="wwwroot\converters\files\F977041.csv" />
+    <None Include="wwwroot\converters\files\F977041.dwg" />
+    <None Include="wwwroot\converters\files\F977041.svg" />
+    <None Include="wwwroot\converters\files\F979365.csv" />
+    <None Include="wwwroot\converters\files\F98219.csv" />
+    <None Include="wwwroot\converters\files\F98219.dwg" />
+    <None Include="wwwroot\converters\files\F982862.csv" />
+    <None Include="wwwroot\converters\files\F982862.dwg" />
+    <None Include="wwwroot\converters\files\F983821.csv" />
+    <None Include="wwwroot\converters\files\F983821.dwg" />
+    <None Include="wwwroot\converters\files\F989040.csv" />
+    <None Include="wwwroot\converters\files\F989040.dwg" />
+    <None Include="wwwroot\converters\files\F989040.svg" />
+    <None Include="wwwroot\converters\files\F989780.csv" />
+    <None Include="wwwroot\converters\files\F989780.dwg" />
+    <None Include="wwwroot\converters\files\F990318.csv" />
+    <None Include="wwwroot\converters\files\F99056.csv" />
+    <None Include="wwwroot\converters\files\F99415.csv" />
+    <None Include="wwwroot\converters\files\F997581.csv" />
+    <None Include="wwwroot\converters\files\F998162.csv" />
+    <None Include="wwwroot\converters\files\hq17__Jul_5_H12_13.pdf" />
+    <None Include="wwwroot\converters\files\pdf\110483\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\115175\e15c03d6-8b3d-6d2a-df50-3a099debdd00.pdf" />
+    <None Include="wwwroot\converters\files\pdf\128571\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\156383\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf" />
+    <None Include="wwwroot\converters\files\pdf\160580\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\161412\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\196167\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\218379\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\229753\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\236439\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\24731\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\258931\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\285807\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\300542\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\316896\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\340586\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\36972\e15c03d6-8b3d-6d2a-df50-3a099debdd00.pdf" />
+    <None Include="wwwroot\converters\files\pdf\38231\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\3840\e15c03d6-8b3d-6d2a-df50-3a099debdd00.pdf" />
+    <None Include="wwwroot\converters\files\pdf\396046\f325da80-b87d-f6ae-a8f0-3a0c4aeb63ca.pdf" />
+    <None Include="wwwroot\converters\files\pdf\402824\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf" />
+    <None Include="wwwroot\converters\files\pdf\406764\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\416842\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\488197\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf" />
+    <None Include="wwwroot\converters\files\pdf\499196\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\535553\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\564344\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\567572\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\604470\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\636764\f325da80-b87d-f6ae-a8f0-3a0c4aeb63ca.pdf" />
+    <None Include="wwwroot\converters\files\pdf\649941\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\658135\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\690453\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\69731\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf" />
+    <None Include="wwwroot\converters\files\pdf\702923\57089426-067d-6e45-d977-3a0be996eb78.pdf" />
+    <None Include="wwwroot\converters\files\pdf\708282\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\716258\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\720353\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\776512\hq17_.pdf" />
+    <None Include="wwwroot\converters\files\pdf\777216\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\785992\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\798616\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\818085\e15c03d6-8b3d-6d2a-df50-3a099debdd00.pdf" />
+    <None Include="wwwroot\converters\files\pdf\827242\cfbee554-70e8-70e9-0543-3a0c2c4fa17b.pdf" />
+    <None Include="wwwroot\converters\files\pdf\829240\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf" />
+    <None Include="wwwroot\converters\files\pdf\844248\eebd0d44-9be4-b24c-e5fd-3a0bf42dba91.pdf" />
+    <None Include="wwwroot\converters\files\pdf\851066\e15c03d6-8b3d-6d2a-df50-3a099debdd00.pdf" />
+    <None Include="wwwroot\converters\files\pdf\913196\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\917548\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\92375\f1b6b9e2-7b74-7d23-46c0-3a0dfc68543a.pdf" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_1.svg" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_2.svg" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_3.svg" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_4.svg" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_5.svg" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_red_1.pdf" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_red_2.pdf" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_red_3.pdf" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_red_4.pdf" />
+    <None Include="wwwroot\converters\files\pdf\custom_CADViewer JS-AutoXchange - Generating Automated Hotspots\CADViewer JS-AutoXchange - Generating Automated Hotspots_red_5.pdf" />
+    <None Include="wwwroot\converters\linklist2023\windows\libcrypto-1_1.dll" />
+    <None Include="wwwroot\converters\linklist2023\windows\libssl-1_1.dll" />
+    <None Include="wwwroot\converters\linklist2023\windows\LinkList_2023_W64_23_08_26.exe" />
+    <None Include="wwwroot\converters\linklist2023\windows\mysqlcppconn-9-vs14.dll" />
+    <None Include="wwwroot\images\banner1.svg" />
+    <None Include="wwwroot\images\banner2.svg" />
+    <None Include="wwwroot\images\banner3.svg" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="CadViewer\converters\files\F11062.rl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CadViewer\app\css\bootstrap-cadviewer.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\bootstrap-multiselect.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs-core-styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_6.1.0.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_6.5.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_7.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_jquery.qtip.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_modal_55.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\cvjs_print_02.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\font-awesome.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\glyphs_cvjs.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_diagonals-thick_18_b81900_40x40.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_diagonals-thick_20_666666_40x40.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_flat_10_000000_40x100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_glass_100_f6f6f6_1x400.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_glass_100_fdf5ce_1x400.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_glass_65_ffffff_1x400.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_gloss-wave_35_f6a828_500x100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_highlight-soft_100_eeeeee_1x100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-bg_highlight-soft_75_ffe45c_1x100.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-icons_222222_256x240.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-icons_228ef1_256x240.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-icons_ef8c08_256x240.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-icons_ffd27a_256x240.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\images\ui-icons_ffffff_256x240.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\jquery-ui-1.11.4.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\jquery-ui-1.13.2.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\jquery.qtip.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\layerlist_05.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\layerlist_06.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\css\loading_animation_2.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\cv\cv-pro\menu_config\cadviewer_custom_01.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\cv\cv-pro\menu_config\cadviewer_custom_02.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_0_0_CADViewer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_0_1_Previous.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_12_1_Settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_14_1_ZoomExtents.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_14_2_ZoomIn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_15_1_ZoomOut.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_15_2_ZoomWindow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_1_1_LayerList.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_1_2_Print.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_4_1_ToggleBlackWhite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_6_2_LayerOff.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_7_1_SwapLayers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_7_2_LayerOn.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_8_1_Measurement.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p1_8_2_CalibrateMeasurement.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_1_1_SaveRedline.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_1_2_LoadRedline.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_2_1_DeleteSingleRedline.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_2_2x_UndoDeleteLastRedline.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_2_2_DeleteLastRedline.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_3_1_RedlineColor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_3_2_RedlineThickness.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_4_1_StickyNote.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\cvjsIcon_dra_p2_4_2_ClearRedlines.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\about.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\adjustlineweight.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\adjustredlineweight.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\alllayerson.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\arrow.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\background.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base150x200.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_01.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_02.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_03.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_04.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_05.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_06.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\images\singleIcons\svg\deepblue\base200x200_07.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\axuploader_2_19.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\bootstrap-cadviewer.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\bootstrap-multiselect.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\canvg.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\cvjs_api_styles_2_0_26.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\cvlicense.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\d3.v3.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\default.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\imagetracer_v1.2.5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\init-full.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\init-nodes.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\init-thumb.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\init.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery-2.2.3.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery-3.2.1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery-3.5.1.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery-ui-1.11.4.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery-ui-1.13.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery.ajax-cross-origin.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery.qtip.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jquery.qtip.min_.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\jscolor.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\korean-korea.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\language_template.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\library_js_svg_path.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\list.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\popper.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\qrcode.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\rgbcolor.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\snap.svg-min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\StackBlur.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\xml2json.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\app\js\___axuploader_2_19.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows.rar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\AutoXChange 2023 Change Log.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ax2020_01.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\axlic.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ax_codepage_map.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ax_font_map.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ax_font_map_generic.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ax_unmapped_fonts.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\chcp_01.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\chcp_02.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\chcp_03.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\desktop.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\doax-dgn.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\doax.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\libgfl340.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\libgfle340.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\msvcp140.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\run_ax2020.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\run_ax2020_1.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\Test01.dxf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\Test01.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\vcruntime140.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\ax2023\windows\ws2_32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\files\F104549.dwg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\files\F11.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\files\F11062.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\converters\files\F11062.dwg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\images\banner1.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\images\banner2.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\images\banner3.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\js\site.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\css\bootstrap-grid.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\css\bootstrap-reboot.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\css\bootstrap-theme.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\css\bootstrap-utilities.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\css\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\js\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="CadViewer\lib\bootstrap\dist\js\npm.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

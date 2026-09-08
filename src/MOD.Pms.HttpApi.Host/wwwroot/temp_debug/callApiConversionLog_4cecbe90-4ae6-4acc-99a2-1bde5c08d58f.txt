@@ -1,0 +1,38 @@
+total parameters: 9
+0,f","paramValue":"pdf"},{"paramName":"last","paramValue":""},{"paramName":"extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+1,last","paramValue":""},{"paramName":"extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+2,extents","paramValue":""},{"paramName":"RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+3,RL","paramValue":"RM_"},{"paramName":"TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+4,TL","paramValue":"RM_TXT"},{"paramName":"LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+5,LA","paramValue":""},{"paramName":"HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+6,HLALL","paramValue":""},{"paramName":"A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+7,A4","paramValue":""},{"paramName":"landscape","paramValue":""}
+8,landscape","paramValue":""}
+WriteFile: \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F829240.dwg
+XXX https://localhost:44368/api/app/document/blob-drawing/7c6f21b8-dca6-d9ef-4e13-3a0c3682f678
+"-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F829240.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\pdf\829240\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="pdf"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL -A4 -landscape
+\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe  "-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F829240.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\pdf\829240\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="pdf"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL -A4 -landscape
+New The command:  \\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows\AX2023_W64_23_12_108RC2.exe "-i="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\F829240.dwg"" "-o="\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\pdf\829240\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf"" "-lpath=\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\ax2023\windows" "-f="pdf"" -last -extents "-RL="RM_"" "-TL="RM_TXT"" -LA -HLALL -A4 -landscape
+output>>Unrecognized Default Unicode Language
+===========================================================================
+                      AutoXchange 2023 V23.12.108 RC2  64-bit
+Copyright (c) 2017, 2018, 2019, 2020, 2021, 2022 Tailor Made Software, Ltd.
+                         All Rights Reserved
+
+     Portions Copyright (c) 1997-2016, Tailor Made Software, Ltd.
+===========================================================================
+License Key Expired
+Valid License Not Found
+
+Thank you for trying this demo of AutoXChange 2023
+Please contact sales@tailormade.com to purchase
+
+Unresolved XRef: 1st floor plan.dwg
+
+Elapsed Time: 3.546 seconds
+
+error>>(none)
+ExitCode: 0
+Conversion done 
+Content location: https://localhost:44368/api/app/document/blob-drawing/7c6f21b8-dca6-d9ef-4e13-3a0c3682f678 output format: pdfXX
+PDF response: {"completedAction":"pdf_creation","errorCode":"E0","converter":"AutoXchange AX2019","version":"V1.00","userLabel":"fromCADViewerJS","contentLocation":"https://localhost:44368/api/app/document/blob-drawing/7c6f21b8-dca6-d9ef-4e13-3a0c3682f678","contentResponse":"file","contentStreamData":"\\mamitspmgtt01\SharedReadOnly\CadViewer\converters\files\pdf\829240\7c6f21b8-dca6-d9ef-4e13-3a0c3682f678.pdf"}
