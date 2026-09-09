@@ -273,6 +273,31 @@ namespace MOD.Pms.Mubaadaras
             }
         }
 
+        public async Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearIncludingChildrenAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                DateTime? startDate = new DateTime(targetYear, 1, 1);
+                DateTime? endDate = new DateTime(targetYear, 12, 31);
+
+                var parentUnit = await _organizationUnitRepository.GetAsync(id);
+                // Org unit Codes are only unique among siblings under the same tenant (every
+                // tenant's top-level units restart at "00001"), so the tenant must be matched
+                // explicitly here rather than relying on the (disabled) multi-tenancy filter -
+                // otherwise this would pull in same-coded units from other tenants too.
+                var unitIds = (await _organizationUnitRepository.GetListAsync())
+                    .Where(ou => ou.TenantId == parentUnit.TenantId && ou.Code.StartsWith(parentUnit.Code))
+                    .Select(ou => ou.Id)
+                    .ToList();
+
+                var config = ObjectMapper.AutoObjectMappingProvider.GetMapper().ConfigurationProvider;
+                var source = (await _mubaadaraRepository.GetQueryableAsync())
+                    .Where(c => c.UnitId.HasValue && unitIds.Contains(c.UnitId.Value) && c.StartDate >= startDate && c.EndDate <= endDate);
+                var result = await DataSourceLoader.LoadAsync(source.ProjectTo<MubaadaraDto>(config), loadOptions);
+                return result;
+            }
+        }
+
         public async Task<LoadResult> GetMubaadarsListByUnitIdAsync(Guid id,  DataSourceLoadOptions loadOptions)
         {
             var config = ObjectMapper.AutoObjectMappingProvider.GetMapper().ConfigurationProvider;

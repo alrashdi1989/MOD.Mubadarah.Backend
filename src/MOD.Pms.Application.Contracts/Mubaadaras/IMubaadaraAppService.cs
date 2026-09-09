@@ -31,6 +31,7 @@ namespace MOD.Pms.Mubaadaras
         void ModOrganizationUnit();
         Task<LoadResult> GetListByUserIdAsync(Guid UserId, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions);
+        Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearIncludingChildrenAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadarsListByUnitIdAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadaraAttachmentAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<List<OrganizationUnitsMubaadaraNumberDto>> GetOrganizationUnitsMubaadaraNumber(int targetYear);

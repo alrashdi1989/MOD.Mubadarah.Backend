@@ -20,18 +20,21 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
         private readonly IOrganizationUnitRepository _organizationUnitRepository;
         private readonly OrganizationUnitManager _organizationUnitManager;
         private readonly ICurrentTenant _currentTenant;
+        private readonly IUnitOfWorkManager _unitOfWorkManager;
 
         public OrganizationUnitDummyDataSeeder(
             IOrganizationUnitRepository organizationUnitRepository,
             OrganizationUnitManager organizationUnitManager,
-            ICurrentTenant currentTenant)
+            ICurrentTenant currentTenant,
+            IUnitOfWorkManager unitOfWorkManager)
         {
             _organizationUnitRepository = organizationUnitRepository;
             _organizationUnitManager = organizationUnitManager;
             _currentTenant = currentTenant;
+            _unitOfWorkManager = unitOfWorkManager;
         }
 
-        private static readonly (string En, string Ar)[] UnitNames =
+        private static readonly (string En, string Ar)[] ParentUnitNames =
         {
             ("Administration Directorate", "مديرية الإدارة"),
             ("Engineering Directorate", "مديرية الهندسة"),
@@ -40,18 +43,31 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             ("Operations Directorate", "مديرية العمليات"),
         };
 
+        // Two child sections per parent directorate, in the same order as ParentUnitNames.
+        private static readonly (string En, string Ar)[][] ChildUnitNames =
+        {
+            new[] { ("Administrative Affairs Section", "قسم الشؤون الإدارية"), ("Documentation Section", "قسم التوثيق") },
+            new[] { ("Design Section", "قسم التصميم"), ("Maintenance Section", "قسم الصيانة") },
+            new[] { ("Budget Section", "قسم الميزانية"), ("Accounts Section", "قسم الحسابات") },
+            new[] { ("Recruitment Section", "قسم التوظيف"), ("Employee Relations Section", "قسم علاقات الموظفين") },
+            new[] { ("Logistics Section", "قسم اللوجستيات"), ("Field Operations Section", "قسم العمليات الميدانية") },
+        };
+
         [UnitOfWork]
         public async Task<List<Guid>> SeedAsync()
         {
             var tenantId = _currentTenant.Id;
 
+            var parentNames = ParentUnitNames.Select(x => x.En).ToHashSet();
+            var childNames = ChildUnitNames.SelectMany(x => x).Select(x => x.En).ToHashSet();
+            var allNames = parentNames.Concat(childNames).ToHashSet();
+
             // One-time cleanup: an earlier version of this seeder inserted every dummy unit
             // with TenantId = NULL regardless of the tenant being seeded, producing many
             // duplicate sets all scoped to the host. Keep only one set per name for the
             // current tenant and remove the rest so each tenant ends up with its own.
-            var dummyNames = UnitNames.Select(x => x.En).ToHashSet();
             var scoped = (await _organizationUnitRepository.GetListAsync())
-                .Where(x => x.TenantId == tenantId && dummyNames.Contains(x.DisplayName))
+                .Where(x => x.TenantId == tenantId && allNames.Contains(x.DisplayName))
                 .ToList();
             var duplicates = scoped
                 .GroupBy(x => x.DisplayName)
@@ -61,26 +77,75 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                 await _organizationUnitRepository.DeleteAsync(unit);
             }
 
-            var existing = scoped
+            var existingByName = scoped
                 .GroupBy(x => x.DisplayName)
                 .Select(g => g.OrderBy(x => x.CreationTime).First())
+                .ToDictionary(x => x.DisplayName);
+
+            // Self-heal an earlier bug: the parent units below used to be created in a loop
+            // within a single UnitOfWork without flushing between inserts, so
+            // OrganizationUnitManager's sibling-Code lookup couldn't see the ones just
+            // created and gave every parent the same Code ("00001"). That breaks any
+            // Code-prefix ("descendant") lookup, since every parent's children then also
+            // share the same prefix. Detect that signature and wipe this tenant's set so
+            // the loop below recreates it with correct, distinct sibling codes.
+            var parentCodes = existingByName
+                .Where(x => parentNames.Contains(x.Key))
+                .Select(x => x.Value.Code)
                 .ToList();
-            if (existing.Count == UnitNames.Length)
+            if (parentCodes.Count > 1 && parentCodes.Distinct().Count() != parentCodes.Count)
             {
-                return existing.Select(x => x.Id).ToList();
+                foreach (var unit in existingByName.Values)
+                {
+                    await _organizationUnitRepository.DeleteAsync(unit);
+                }
+                await _unitOfWorkManager.Current.SaveChangesAsync();
+                existingByName.Clear();
             }
 
-            var ids = new List<Guid>();
-            foreach (var (nameEn, nameAr) in UnitNames)
+            var expectedCount = ParentUnitNames.Length + ChildUnitNames.Sum(c => c.Length);
+            if (existingByName.Count == expectedCount)
             {
-                var unit = new OrganizationUnit(Guid.NewGuid(), nameEn, tenantId: tenantId);
-                unit.SetProperty("EnglishName", nameEn);
-                unit.SetProperty("ArabicName", nameAr);
-                await _organizationUnitManager.CreateAsync(unit);
-                ids.Add(unit.Id);
+                return existingByName
+                    .Where(x => childNames.Contains(x.Key))
+                    .Select(x => x.Value.Id)
+                    .ToList();
             }
 
-            return ids;
+            var leafIds = new List<Guid>();
+            for (var p = 0; p < ParentUnitNames.Length; p++)
+            {
+                var (parentNameEn, parentNameAr) = ParentUnitNames[p];
+
+                if (!existingByName.TryGetValue(parentNameEn, out var parentUnit))
+                {
+                    parentUnit = new OrganizationUnit(Guid.NewGuid(), parentNameEn, tenantId: tenantId);
+                    parentUnit.SetProperty("EnglishName", parentNameEn);
+                    parentUnit.SetProperty("ArabicName", parentNameAr);
+                    await _organizationUnitManager.CreateAsync(parentUnit);
+                    // Flush immediately: OrganizationUnitManager computes each unit's sibling
+                    // Code by querying the database, so without this every parent created in
+                    // this same loop would see no siblings yet and all get assigned "00001".
+                    await _unitOfWorkManager.Current.SaveChangesAsync();
+                    existingByName[parentNameEn] = parentUnit;
+                }
+
+                foreach (var (childNameEn, childNameAr) in ChildUnitNames[p])
+                {
+                    if (!existingByName.TryGetValue(childNameEn, out var childUnit))
+                    {
+                        childUnit = new OrganizationUnit(Guid.NewGuid(), childNameEn, parentId: parentUnit.Id, tenantId: tenantId);
+                        childUnit.SetProperty("EnglishName", childNameEn);
+                        childUnit.SetProperty("ArabicName", childNameAr);
+                        await _organizationUnitManager.CreateAsync(childUnit);
+                        await _unitOfWorkManager.Current.SaveChangesAsync();
+                        existingByName[childNameEn] = childUnit;
+                    }
+                    leafIds.Add(childUnit.Id);
+                }
+            }
+
+            return leafIds;
         }
     }
 }
