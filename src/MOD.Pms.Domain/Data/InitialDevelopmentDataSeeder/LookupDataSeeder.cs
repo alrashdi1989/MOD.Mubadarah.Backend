@@ -513,8 +513,102 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                 }, true);
 
             }
+
+            Lookup mubaadraType;
+            var isMubaadraTypeExist = await _lookupRepository.AnyAsync(c => c.EnglishName == "MubaadraType");
+            if (!isMubaadraTypeExist)
+            {
+                mubaadraType = await _lookupRepository.InsertAsync(new Lookup(PmsConsts.MubaadraTypeId)
+                {
+                    EnglishName = "MubaadraType",
+                    ArabicName = "نوع المبادرة",
+                    Priority = 0
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Administrative",
+                    ArabicName = "إدارية",
+                    Priority = 0,
+                    LookupId = mubaadraType.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Technical",
+                    ArabicName = "تقنية",
+                    Priority = 1,
+                    LookupId = mubaadraType.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Financial",
+                    ArabicName = "مالية",
+                    Priority = 2,
+                    LookupId = mubaadraType.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Training",
+                    ArabicName = "تدريبية",
+                    Priority = 3,
+                    LookupId = mubaadraType.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Development",
+                    ArabicName = "تطويرية",
+                    Priority = 4,
+                    LookupId = mubaadraType.Id,
+                }, true);
+            }
+
+            Lookup mubaadraStatus;
+            var isMubaadraStatusExist = await _lookupRepository.AnyAsync(c => c.EnglishName == "MubaadraStatus");
+            if (!isMubaadraStatusExist)
+            {
+                mubaadraStatus = await _lookupRepository.InsertAsync(new Lookup(PmsConsts.MubaadraStatusId)
+                {
+                    EnglishName = "MubaadraStatus",
+                    ArabicName = "حالة المبادرة",
+                    Priority = 0
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Not Started",
+                    ArabicName = "لم تبدأ",
+                    Priority = 0,
+                    LookupId = mubaadraStatus.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "In Progress",
+                    ArabicName = "قيد التنفيذ",
+                    Priority = 1,
+                    LookupId = mubaadraStatus.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Completed",
+                    ArabicName = "مكتملة",
+                    Priority = 2,
+                    LookupId = mubaadraStatus.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "Delayed",
+                    ArabicName = "متأخرة",
+                    Priority = 3,
+                    LookupId = mubaadraStatus.Id,
+                }, true);
+                await _lookupRepository.InsertAsync(new Lookup
+                {
+                    EnglishName = "On Hold",
+                    ArabicName = "معلقة",
+                    Priority = 4,
+                    LookupId = mubaadraStatus.Id,
+                }, true);
+            }
         }
     }
-      
+
 }
 
