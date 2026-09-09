@@ -60,6 +60,14 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             ApprovalStatus.Rejected,
         };
 
+        private static readonly MubaadaraTypes[] Categories =
+        {
+            MubaadaraTypes.MainTarget,
+            MubaadaraTypes.Projects,
+            MubaadaraTypes.Tasks,
+            MubaadaraTypes.ExtraTasks,
+        };
+
         private static readonly (string En, string Ar)[] Titles =
         {
             ("Digital Records Modernization", "تحديث السجلات الرقمية"),
@@ -94,6 +102,16 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     await _mubaadaraRepository.UpdateAsync(mubaadara);
                     i++;
                 }
+
+                // Backfill Category for records seeded before that column existed - the migration
+                // default (MainTarget) would otherwise leave every existing record on the same
+                // value. Deterministic by index, so re-running this is a no-op.
+                for (var j = 0; j < existing.Count; j++)
+                {
+                    existing[j].Category = Categories[j % Categories.Length];
+                    await _mubaadaraRepository.UpdateAsync(existing[j]);
+                }
+
                 return;
             }
 
@@ -113,6 +131,7 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     Title = titleEn,
                     Description = titleAr,
                     TypeId = TypeIds[i % TypeIds.Length],
+                    Category = Categories[i % Categories.Length],
                     StatusId = StatusIds[i % StatusIds.Length],
                     Year = currentYear,
                     Month = (Months)(startDate.Month - 1),

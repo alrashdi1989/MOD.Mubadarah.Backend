@@ -42,6 +42,7 @@ namespace MOD.Pms.EntityFrameworkCore.Repositories
                              Title = mubaadara.Title,
                              Description = mubaadara.Description,
                              TypeId = mubaadara.TypeId,
+                             Category = mubaadara.Category,
                              UnitId = mubaadara.UnitId,
                              IsApproved = mubaadara.IsApproved,
                              StartDate = mubaadara.StartDate,

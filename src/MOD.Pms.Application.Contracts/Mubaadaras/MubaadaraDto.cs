@@ -10,6 +10,7 @@ namespace MOD.Pms.Mubaadaras
     {
         public string Title { get; set; }
         public Guid TypeId { get; set; }
+        public MubaadaraTypes Category { get; set; }
         public string Description { get; set; }
         public int Year { get; set; }
         public Months Month { get; set; }
