@@ -80,6 +80,37 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             ("Fleet Maintenance Scheduling System", "نظام جدولة صيانة الأسطول"),
             ("Document Archiving Standardization", "توحيد معايير أرشفة الوثائق"),
             ("Internal Communications Improvement", "تحسين الاتصالات الداخلية"),
+            ("Remote Work Infrastructure Rollout", "نشر بنية العمل عن بعد"),
+            ("Vendor Contract Renegotiation", "إعادة التفاوض على عقود الموردين"),
+            ("Customer Feedback Portal Launch", "إطلاق بوابة آراء العملاء"),
+            ("Warehouse Inventory Digitization", "رقمنة مخزون المستودعات"),
+            ("Employee Wellness Program", "برنامج صحة الموظفين"),
+            ("Data Backup Resilience Project", "مشروع مرونة النسخ الاحتياطي للبيانات"),
+            ("Supplier Quality Audit Initiative", "مبادرة تدقيق جودة الموردين"),
+            ("Mobile App Accessibility Overhaul", "تطوير إمكانية الوصول لتطبيق الجوال"),
+            ("Legal Compliance Review 2026", "مراجعة الامتثال القانوني 2026"),
+            ("Cross-Department Reporting Hub", "مركز التقارير المشترك بين الإدارات"),
+            ("Green Fleet Transition Plan", "خطة التحول لأسطول صديق للبيئة"),
+            ("Talent Acquisition Pipeline Redesign", "إعادة تصميم مسار استقطاب المواهب"),
+            ("Network Security Hardening", "تعزيز أمن الشبكة"),
+            ("Public Records Digital Archive", "الأرشيف الرقمي للسجلات العامة"),
+            ("Customer Support Response Time Initiative", "مبادرة تحسين زمن استجابة الدعم"),
+            ("Facilities Preventive Maintenance Plan", "خطة الصيانة الوقائية للمرافق"),
+            ("Budget Forecasting Model Upgrade", "تحديث نموذج التنبؤ بالميزانية"),
+            ("Employee Recognition Program Relaunch", "إعادة إطلاق برنامج تكريم الموظفين"),
+            ("Cloud Migration Phase Two", "المرحلة الثانية من الانتقال إلى السحابة"),
+            ("Regulatory Training Compliance Drive", "حملة الامتثال للتدريب التنظيمي"),
+            ("Interdepartmental Workflow Automation", "أتمتة سير العمل بين الإدارات"),
+            ("Strategic Partnership Development", "تطوير الشراكات الاستراتيجية"),
+            ("Field Operations Mobile Toolkit", "حقيبة أدوات العمليات الميدانية"),
+            ("Annual Risk Assessment Update", "تحديث تقييم المخاطر السنوي"),
+            ("Knowledge Base Consolidation", "توحيد قاعدة المعرفة"),
+            ("Procurement Vendor Diversity Program", "برنامج تنوع موردي المشتريات"),
+            ("IT Helpdesk Response Optimization", "تحسين استجابة الدعم الفني"),
+            ("Sustainability Reporting Framework", "إطار تقارير الاستدامة"),
+            ("Succession Planning Rollout", "نشر خطة تعاقب القيادات"),
+            ("Archive Digitization Phase Three", "المرحلة الثالثة من رقمنة الأرشيف"),
+            ("Enterprise Risk Dashboard Build", "بناء لوحة مخاطر المؤسسة"),
         };
 
         [UnitOfWork]
@@ -91,6 +122,7 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             var existing = (await _mubaadaraRepository.GetListAsync())
                 .Where(m => m.TenantId == _currentTenant.Id)
                 .ToList();
+
             if (existing.Any())
             {
                 // Re-link records whose UnitId is missing or doesn't belong to this tenant's own units
@@ -111,8 +143,6 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     existing[j].Category = Categories[j % Categories.Length];
                     await _mubaadaraRepository.UpdateAsync(existing[j]);
                 }
-
-                return;
             }
 
             var admin = await _identityUserRepository.FindByNormalizedUserNameAsync("ADMIN");
@@ -121,27 +151,35 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             var random = new Random();
             var currentYear = DateTime.Now.Year;
 
+            // Insert only the titles not already seeded for this tenant, so growing the
+            // Titles list and re-running is additive instead of duplicating everything.
+            var existingTitles = existing.Select(m => m.Title).ToHashSet();
+            var startIndex = existing.Count;
+
             for (var i = 0; i < Titles.Length; i++)
             {
                 var (titleEn, titleAr) = Titles[i];
+                if (existingTitles.Contains(titleEn)) continue;
+
+                var seedIndex = startIndex + i;
                 var startDate = new DateTime(currentYear, random.Next(1, 13), 1);
 
                 await _mubaadaraRepository.InsertAsync(new Mubaadara
                 {
                     Title = titleEn,
                     Description = titleAr,
-                    TypeId = TypeIds[i % TypeIds.Length],
-                    Category = Categories[i % Categories.Length],
-                    StatusId = StatusIds[i % StatusIds.Length],
+                    TypeId = TypeIds[seedIndex % TypeIds.Length],
+                    Category = Categories[seedIndex % Categories.Length],
+                    StatusId = StatusIds[seedIndex % StatusIds.Length],
                     Year = currentYear,
                     Month = (Months)(startDate.Month - 1),
-                    UnitId = unitIds.Count > 0 ? unitIds[i % unitIds.Count] : null,
+                    UnitId = unitIds.Count > 0 ? unitIds[seedIndex % unitIds.Count] : null,
                     ManagerId = managerId,
                     CompletionPercentage = random.Next(0, 100),
                     Amount = random.Next(1000, 50000),
                     StartDate = startDate,
                     EndDate = startDate.AddMonths(random.Next(2, 6)),
-                    IsApproved = ApprovalStatuses[i % ApprovalStatuses.Length],
+                    IsApproved = ApprovalStatuses[seedIndex % ApprovalStatuses.Length],
                 }, true);
             }
         }
