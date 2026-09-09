@@ -13,18 +13,24 @@ namespace MOD.Pms.Data
     {
         private readonly ILookupDataSeeder _lookupDataSeeder;
         private readonly IMubaadaraDummyDataSeeder _mubaadaraDummyDataSeeder;
+        private readonly IMubaadaraChildDataSeeder _mubaadaraChildDataSeeder;
 
 
-        public PmsDataSeederContributor(ILookupDataSeeder lookupDataSeeder, IMubaadaraDummyDataSeeder mubaadaraDummyDataSeeder)
+        public PmsDataSeederContributor(
+            ILookupDataSeeder lookupDataSeeder,
+            IMubaadaraDummyDataSeeder mubaadaraDummyDataSeeder,
+            IMubaadaraChildDataSeeder mubaadaraChildDataSeeder)
         {
             _lookupDataSeeder = lookupDataSeeder;
             _mubaadaraDummyDataSeeder = mubaadaraDummyDataSeeder;
+            _mubaadaraChildDataSeeder = mubaadaraChildDataSeeder;
          }
 
         public async Task SeedAsync(DataSeedContext context)
         {
             await _lookupDataSeeder.SeedAsync();
             await _mubaadaraDummyDataSeeder.SeedAsync();
+            await _mubaadaraChildDataSeeder.SeedAsync();
         }
     }
 }
