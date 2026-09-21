@@ -1,5 +1,3 @@
-﻿
-
 @page
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Account.Localization
@@ -13,83 +11,624 @@
 @inject IHtmlLocalizer<AccountResource> L
 @inject IThemeManager ThemeManager
 @inject Volo.Abp.Settings.ISettingProvider SettingProvider
-
 @{
-  //  Layout = ThemeManager.CurrentTheme.GetAccountLayout();
+    // Fully custom, full-viewport design (see the reference mockup this was
+    // built from) - a Layout would wrap this in the theme's normal
+    // header/sidebar chrome, which the split-screen design here has no
+    // room for, so this page renders as a complete, self-contained HTML
+    // document instead of a themed content fragment.
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@L["Login"]</title>
+    <link rel="stylesheet" href="~/vendor/fontawesome/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-@section scripts
-    {
-    <abp-script-bundle name="@typeof(LoginModel).FullName">
-        <abp-script src="/Pages/Account/Login.js" />
-    </abp-script-bundle>
-}
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
 
-<div class="card mt-3 shadow-sm rounded">
-    <div class="card-body p-5">
-        <h4>@L["Login"]</h4>
-     @*   @if (await SettingProvider.IsTrueAsync(AccountSettingNames.IsSelfRegistrationEnabled))
-        {
-            <strong>
-                @L["AreYouANewUser"]
-                <a href="@Url.Page("./Register", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})" class="text-decoration-none">@L["Register"]</a>
-            </strong>
-        }*@
-        @if (Model.EnableLocalLogin)
-        {
-            <form method="post" class="mt-4">
-                <div class="mb-3">
-                    <label asp-for="LoginInput.UserNameOrEmailAddress" class="form-label"></label>
-                    <input asp-for="LoginInput.UserNameOrEmailAddress" class="form-control" />
-                    <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
+        .pms-login-page {
+            /* Neutralized to ltr so the two panels below land on a fixed,
+               predictable physical side regardless of the document's own
+               rtl direction - each panel re-declares direction: rtl for
+               its own text content. */
+            direction: ltr;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 100vh;
+            /* The exact reference photo (studio backdrop with diagonal
+               light and a glossy platform) - a hand-drawn SVG can only
+               approximate a real photograph's lighting/materials, so the
+               actual image is used here instead. */
+            background-color: #eeeeec;
+            background-image: url('@Url.Content("~/images/login-bg-photo.png")');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Official emblem, pinned top-center of the whole page (not just
+           one panel) - just the emblem itself on a transparent background,
+           no badge/roundel behind it. */
+        .pms-mod-emblem-badge {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pms-mod-emblem-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .pms-login-left {
+            direction: rtl;
+            flex: 1 1 55%;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* RTL's default "start" text-align is right - on this wide a
+               panel that left the logo/title/subtitle hugging the right
+               edge with a large empty gap beside them. Centering the whole
+               block (and its own text) balances it across the panel. */
+            align-items: center;
+            text-align: center;
+            padding: 60px 8vw;
+        }
+
+        /* Circular, frosted-glass badge for the system icon - same recipe
+           used for the app loader's own logo badge (see the Angular app's
+           index.html .pms-loader-logo). */
+        @@keyframes pms-logo-badge-bob {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .pms-login-logo-badge {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: linear-gradient(160deg, rgba(226, 229, 231, 0.55), rgba(200, 204, 207, 0.35));
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 8px 20px rgba(31, 36, 48, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            overflow: hidden;
+            animation: pms-logo-badge-bob 4.5s ease-in-out infinite;
+        }
+
+        .pms-login-logo {
+            width: 68%;
+            height: 68%;
+            object-fit: contain;
+        }
+
+        .pms-login-title {
+            margin: 0 0 8px;
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #1f2430;
+        }
+
+        .pms-login-subtitle {
+            margin: 0 0 56px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b7280;
+        }
+
+        .pms-login-timeline {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            /* Needs an explicit width, not just max-width - as a flex item
+               of a parent using align-items:center (for centering the
+               title/subtitle above it), this would otherwise shrink-wrap
+               to its own content and leave justify-content:space-between
+               nothing to actually distribute, no matter how large
+               max-width was raised. */
+            width: 100%;
+            max-width: 900px;
+            padding-top: 6px;
+        }
+
+        /* A wavy, ribbon-like connector threading through the pin centers -
+           an SVG path instead of a straight bar/tube, since the four pin
+           x-positions (space-between, in a max-width:620px row) are known
+           ahead of time and stretch-fit the viewBox to whatever the row's
+           actual rendered width ends up being. */
+        .pms-login-timeline-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 76px;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .pms-login-timeline-step {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            width: 90px;
+        }
+
+        /* Map-pin shape: a square rotated 45deg with one corner squared off
+           reads as a teardrop/pin outline - the icon inside is counter-
+           rotated back upright. */
+        @@keyframes pms-pin-float {
+            0%, 100% {
+                transform: rotate(-45deg) translateY(0);
+            }
+            50% {
+                transform: rotate(-45deg) translateY(-9px);
+            }
+        }
+
+        .pms-login-timeline-pin {
+            width: 56px;
+            height: 56px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            background: linear-gradient(160deg, #2b2f38, #1a1d24);
+            border: 4px solid #d9b45c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+            animation: pms-pin-float 2.6s ease-in-out infinite;
+        }
+
+        /* Staggered per pin so they bob like a gentle wave instead of all
+           moving in lockstep. The connector <svg> is the first child of
+           .pms-login-timeline, so the four steps are nth-child(2..5), not
+           (1..4). */
+        .pms-login-timeline-step:nth-child(3) .pms-login-timeline-pin {
+            animation-delay: 0.2s;
+        }
+
+        .pms-login-timeline-step:nth-child(4) .pms-login-timeline-pin {
+            animation-delay: 0.4s;
+        }
+
+        .pms-login-timeline-step:nth-child(5) .pms-login-timeline-pin {
+            animation-delay: 0.6s;
+        }
+
+        .pms-login-timeline-icon {
+            transform: rotate(45deg);
+            color: #fff;
+            font-size: 1.05rem;
+        }
+
+        .pms-login-timeline-step span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #4b5563;
+            text-align: center;
+        }
+
+        .pms-login-right {
+            direction: rtl;
+            flex: 1 1 40%;
+            min-width: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .pms-login-card {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            background: #fdfdfc;
+            border-radius: 22px;
+            padding: 40px 36px 32px;
+            /* Soft light-gold glassy glow all around the card, on top of
+               its own depth shadow. */
+            box-shadow: 0 0 0 1px rgba(224, 184, 90, 0.3), 0 0 45px rgba(224, 184, 90, 0.35), 0 30px 60px rgba(20, 20, 20, 0.12);
+            overflow: hidden;
+        }
+
+        /* Folded-corner accent in the top corner of the card. */
+        .pms-login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            inset-inline-end: 0;
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, #e3e0d8 50%, #cfccc3 50%);
+            clip-path: polygon(100% 0, 100% 100%, 0 0);
+        }
+
+        .pms-login-card-logo-badge {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: linear-gradient(160deg, rgba(226, 229, 231, 0.6), rgba(200, 204, 207, 0.4));
+            backdrop-filter: blur(10px) saturate(160%);
+            -webkit-backdrop-filter: blur(10px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 14px rgba(31, 36, 48, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Centered above the (still start-aligned) title/subtitle text
+               below it, instead of sitting at the card's start edge. */
+            margin: 0 auto 14px;
+            overflow: hidden;
+        }
+
+        .pms-login-card-logo {
+            display: block;
+            width: 68%;
+            height: 68%;
+            object-fit: contain;
+        }
+
+        .pms-login-card-title {
+            margin: 0 0 6px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1f2430;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .pms-login-card-subtitle {
+            margin: 0 0 26px;
+            font-size: 0.85rem;
+            color: #8a8f98;
+            text-align: center;
+        }
+
+        .pms-login-field {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .pms-login-input {
+            width: 100%;
+            height: 52px;
+            padding: 0 46px;
+            border: 1px solid #e6e5e1;
+            border-radius: 12px;
+            background: #f8f7f4;
+            font-size: 0.95rem;
+            color: #1f2430;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .pms-login-input:focus {
+            border-color: #c9a227;
+        }
+
+        /* Field icon (person on the username field, lock on the password
+           field) sits at the "leading" edge (right, in this rtl layout);
+           the password field's eye-toggle sits at the opposite, trailing
+           edge - two different fixed positions, not one shared rule. */
+        .pms-login-field-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            inset-inline-start: 16px;
+            color: #9a9a94;
+            font-size: 0.95rem;
+        }
+
+        .pms-login-eye-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            inset-inline-end: 16px;
+            color: #9a9a94;
+            font-size: 0.95rem;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        /* Targeted by attribute, not a class - putting a plain class="..."
+           directly on a span that also carries asp-validation-for makes
+           ABP's own validation-message tag helper mangle the attribute
+           (it renders the internal .NET wrapper type's name as a literal
+           class instead of merging the two cleanly). */
+        span[data-valmsg-for] {
+            display: block;
+            color: #c0392b;
+            font-size: 0.78rem;
+            margin: -8px 4px 10px;
+        }
+
+        .pms-login-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 8px 0 22px;
+            font-size: 0.85rem;
+        }
+
+        .pms-login-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4b5563;
+            cursor: pointer;
+        }
+
+        .pms-login-checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: #c9a227;
+        }
+
+        .pms-login-forgot {
+            color: #1f2430;
+            text-decoration: none;
+        }
+
+        .pms-login-forgot:hover {
+            text-decoration: underline;
+        }
+
+        .pms-login-submit {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(160deg, #262b35, #171a21);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        .pms-login-submit:hover {
+            opacity: 0.92;
+        }
+
+        .pms-login-cancel {
+            width: 100%;
+            height: 46px;
+            margin-top: 10px;
+            border: 1px solid #e6e5e1;
+            border-radius: 12px;
+            background: #fff;
+            color: #4b5563;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .pms-login-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 26px 0 18px;
+            color: #9a9a94;
+            font-size: 0.8rem;
+        }
+
+        .pms-login-divider::before,
+        .pms-login-divider::after {
+            content: '';
+            flex: 1 1 auto;
+            border-top: 1px solid #e6e5e1;
+        }
+
+        .pms-login-providers {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .pms-login-provider-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid #e6e5e1;
+            background: #f8f7f4;
+            color: #4b5563;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .pms-login-alert {
+            background: #fdf2ee;
+            border: 1px solid #f3d7c9;
+            color: #8a4b2f;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+        }
+
+        @@media (max-width: 900px) {
+            .pms-login-timeline {
+                display: none;
+            }
+
+            .pms-login-left {
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pms-login-page">
+        <span class="pms-mod-emblem-badge">
+            <img src="~/images/logo/leptonx/mod-logo.png" alt="" />
+        </span>
+        <div class="pms-login-left">
+            <span class="pms-login-logo-badge">
+                <img src="~/images/logo/leptonx/iconlogo.png" class="pms-login-logo" alt="" />
+            </span>
+            <h1 class="pms-login-title">وزارة الدفاع - مديرية تقنية المعلومات</h1>
+            <p class="pms-login-subtitle">إدارة المهام .. من البداية إلى الإنجاز</p>
+
+            <div class="pms-login-timeline">
+                <svg class="pms-login-timeline-path" viewBox="0 0 820 76" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="pmsTimelinePathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#eeddb0" />
+                            <stop offset="100%" stop-color="#c9a24a" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M 45 38 C 130 8, 205 8, 288 38 S 450 68, 532 38 S 695 8, 775 38"
+                          fill="none" stroke="url(#pmsTimelinePathGrad)" stroke-width="6" stroke-linecap="round" />
+                </svg>
+                <div class="pms-login-timeline-step">
+                    <div class="pms-login-timeline-pin"><i class="fas fa-file-alt pms-login-timeline-icon"></i></div>
+                    <span>إنشاء</span>
                 </div>
+                <div class="pms-login-timeline-step">
+                    <div class="pms-login-timeline-pin"><i class="fas fa-cog pms-login-timeline-icon"></i></div>
+                    <span>تنفيذ</span>
+                </div>
+                <div class="pms-login-timeline-step">
+                    <div class="pms-login-timeline-pin"><i class="fas fa-search pms-login-timeline-icon"></i></div>
+                    <span>مراجعة</span>
+                </div>
+                <div class="pms-login-timeline-step">
+                    <div class="pms-login-timeline-pin"><i class="fas fa-check pms-login-timeline-icon"></i></div>
+                    <span>إنجاز</span>
+                </div>
+            </div>
+        </div>
 
-                <div class="mb-3">
-                    <label asp-for="LoginInput.Password" class="form-label"></label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" autocomplete="new-password" maxlength="@IdentityUserConsts.MaxPasswordLength" asp-for="LoginInput.Password" />
-                        <button class="btn btn-secondary" type="button" id="PasswordVisibilityButton"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
+        <div class="pms-login-right">
+            <div class="pms-login-card">
+                <span class="pms-login-card-logo-badge">
+                    <img src="~/images/logo/leptonx/iconlogo.png" class="pms-login-card-logo" alt="" />
+                </span>
+                <h2 class="pms-login-card-title">مرحباً بعودتك في نظام خطة العمل السنوي</h2>
+                <p class="pms-login-card-subtitle">يرجى تسجيل الدخول للمتابعة</p>
+
+                @if (Model.EnableLocalLogin)
+                {
+                    <form method="post">
+                        <div class="pms-login-field">
+                            <span class="pms-login-field-icon"><i class="fas fa-user"></i></span>
+                            <input asp-for="LoginInput.UserNameOrEmailAddress" class="pms-login-input"
+                                   placeholder="@Html.DisplayNameFor(m => m.LoginInput.UserNameOrEmailAddress)" />
+                        </div>
+                        <span asp-validation-for="LoginInput.UserNameOrEmailAddress"></span>
+
+                        <div class="pms-login-field">
+                            <button class="pms-login-eye-btn" type="button" id="PasswordVisibilityButton"><i class="fas fa-eye"></i></button>
+                            <input type="password" autocomplete="new-password" maxlength="@IdentityUserConsts.MaxPasswordLength"
+                                   asp-for="LoginInput.Password" class="pms-login-input"
+                                   placeholder="@Html.DisplayNameFor(m => m.LoginInput.Password)" />
+                            <span class="pms-login-field-icon"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <span asp-validation-for="LoginInput.Password"></span>
+
+                        <div class="pms-login-row">
+                            <label class="pms-login-checkbox">
+                                <input type="checkbox" asp-for="LoginInput.RememberMe" />
+                                <span>@Html.DisplayNameFor(m => m.LoginInput.RememberMe)</span>
+                            </label>
+                            <a class="pms-login-forgot" href="@Url.Page("./ForgotPassword", new { returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash })">@L["ForgotPassword"]</a>
+                        </div>
+
+                        <button type="submit" name="Action" value="Login" class="pms-login-submit">
+                            @L["Login"]
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+
+                        @if (Model.ShowCancelButton)
+                        {
+                            <button type="submit" formnovalidate="formnovalidate" name="Action" value="Cancel" class="pms-login-cancel">@L["Cancel"]</button>
+                        }
+                    </form>
+                }
+
+                @if (Model.VisibleExternalProviders.Any())
+                {
+                    <div class="pms-login-divider"><span>@L["OrLoginWith"]</span></div>
+                    <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post" class="pms-login-providers">
+                        @foreach (var provider in Model.VisibleExternalProviders)
+                        {
+                            <button type="submit" class="pms-login-provider-btn" name="provider" value="@provider.AuthenticationScheme" title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">
+                                <i class="fas fa-globe"></i>
+                            </button>
+                        }
+                    </form>
+                }
+
+                @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+                {
+                    <div class="pms-login-alert">
+                        <strong>@L["InvalidLoginRequest"]</strong>
+                        @L["ThereAreNoLoginSchemesConfiguredForThisClient"]
                     </div>
-                    <span asp-validation-for="LoginInput.Password"></span>
-                </div>
-                <abp-row>
-                    <abp-column>
-                        <abp-input asp-for="LoginInput.RememberMe" class="mb-4" />
-                    </abp-column>
-                    <abp-column class="text-end">
-                        <a href="@Url.Page("./ForgotPassword", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})">@L["ForgotPassword"]</a>
-                    </abp-column>
-                </abp-row>
-                <div class="d-grid gap-2">
-                    <abp-button type="submit" button-type="Primary" name="Action" value="Login" class="btn-lg mt-3">@L["Login"]</abp-button>
-                    @if (Model.ShowCancelButton)
-                    {
-                        <abp-button type="submit" button-type="Secondary" formnovalidate="formnovalidate" name="Action" value="Cancel" class="btn-lg mt-3">@L["Cancel"]</abp-button>
-                    }
-                </div>
-            </form>
-        }
-
-        @if (Model.VisibleExternalProviders.Any())
-        {
-            <div class="mt-2">
-                <h5>@L["OrLoginWith"]</h5>
-                <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post">
-                    @foreach (var provider in Model.VisibleExternalProviders)
-                    {
-                        <button type="submit" class="btn btn-primary m-1" name="provider" value="@provider.AuthenticationScheme" title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
-                    }
-                </form>
+                }
             </div>
-        }
-
-        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
-        {
-            <div class="alert alert-warning">
-                <strong>@L["InvalidLoginRequest"]</strong>
-                @L["ThereAreNoLoginSchemesConfiguredForThisClient"]
-            </div>
-        }
-
+        </div>
     </div>
-</div>
+
+    <script>
+        (function () {
+            var btn = document.getElementById('PasswordVisibilityButton');
+            if (!btn) return;
+            btn.addEventListener('click', function () {
+                var field = btn.closest('.pms-login-field');
+                var input = field ? field.querySelector('input') : null;
+                var icon = btn.querySelector('i');
+                if (!input) return;
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

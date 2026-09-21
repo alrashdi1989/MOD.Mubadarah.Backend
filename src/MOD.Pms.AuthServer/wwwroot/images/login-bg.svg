@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wallGrad" x1="0%" y1="0%" x2="30%" y2="100%">
+      <stop offset="0%" stop-color="#fcfcfc"/>
+      <stop offset="60%" stop-color="#eef0f1"/>
+      <stop offset="100%" stop-color="#dfe2e4"/>
+    </linearGradient>
+    <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e3e5e7"/>
+      <stop offset="45%" stop-color="#eef0f1"/>
+      <stop offset="100%" stop-color="#f5f6f6"/>
+    </linearGradient>
+    <linearGradient id="rayA" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rayB" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="slabTop" x1="0%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#7d868d"/>
+      <stop offset="100%" stop-color="#565d63"/>
+    </linearGradient>
+    <linearGradient id="slabEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a3f43"/>
+      <stop offset="100%" stop-color="#232629"/>
+    </linearGradient>
+    <linearGradient id="goldHint" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e0b85a" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#e0b85a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#e0b85a" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur18" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="blur6" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- Wall -->
+  <rect width="1600" height="900" fill="url(#wallGrad)"/>
+  <!-- Floor, meeting the wall at a soft horizon -->
+  <rect x="0" y="620" width="1600" height="280" fill="url(#floorGrad)"/>
+  <rect x="0" y="612" width="1600" height="10" fill="#ffffff" opacity="0.5" filter="url(#blur18)"/>
+
+  <!-- A pair of narrow vertical light seams, echoing the reference's
+       architectural wall gap detail -->
+  <rect x="808" y="0" width="10" height="640" fill="#ffffff" opacity="0.7" filter="url(#blur6)"/>
+  <rect x="838" y="0" width="14" height="640" fill="url(#goldHint)" filter="url(#blur6)"/>
+  <rect x="868" y="0" width="8" height="640" fill="#ffffff" opacity="0.55" filter="url(#blur6)"/>
+
+  <!-- Diagonal window-light rays crossing the wall -->
+  <g filter="url(#blur18)">
+    <polygon points="1150,-60 1260,-60 480,700 350,700" fill="url(#rayA)"/>
+    <polygon points="1420,-60 1500,-60 760,700 660,700" fill="url(#rayB)"/>
+  </g>
+  <!-- Their soft reflection on the glossy floor -->
+  <g filter="url(#blur18)" opacity="0.4" transform="translate(0,1240) scale(1,-1)">
+    <polygon points="1150,-60 1260,-60 480,700 350,700" fill="url(#rayA)"/>
+    <polygon points="1420,-60 1500,-60 760,700 660,700" fill="url(#rayB)"/>
+  </g>
+
+  <!-- Glossy dark platform, lower-left corner -->
+  <g filter="url(#blur6)">
+    <path d="M -80 640 L 560 690 L 460 760 L -80 760 Z" fill="url(#slabTop)"/>
+    <path d="M -80 760 L 460 760 L 460 800 L -80 800 Z" fill="url(#slabEdge)"/>
+    <path d="M -80 655 L 480 700 L 440 715 L -80 700 Z" fill="#ffffff" opacity="0.35"/>
+  </g>
+</svg>
