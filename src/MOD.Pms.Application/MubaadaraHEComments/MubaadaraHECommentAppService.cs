@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using MOD.Pms.Common;
 using MOD.Pms.Enums;
 using MOD.Pms.Localization;
@@ -77,10 +78,17 @@ namespace MOD.Pms.MubaadaraAttachments
             JsonConvert.PopulateObject(input.ToString(), mubaadaraHEComments);
             mubaadaraHEComments = await _mubaadaraHECommentRepository.InsertAsync(mubaadaraHEComments);
             var mubaadaraHECommentsdto = ObjectMapper.Map<MubaadaraHEComment, MubaadaraHECommentsDto>(mubaadaraHEComments);
-            var mubaadara = (await _mubaadaraRepository.GetAsync(mubaadaraHECommentsdto.MubaadaraId));
-            var mubaadaraType = (await _lookupsRepository.GetAsync(mubaadara.TypeId)).ArabicName;
             using (_dataFilter.Disable<IMultiTenant>())
             {
+                // Mubaadara/Lookup lookups must run inside the multi-tenancy
+                // filter disable too, not just the email step below - with
+                // it enabled, EF Core's tenant query filter can exclude a
+                // row that genuinely exists in the table (wrong/no tenant
+                // match for the current request), and GetAsync throws
+                // EntityNotFoundException even though the row is right
+                // there in the database.
+                var mubaadara = (await _mubaadaraRepository.GetAsync(mubaadaraHECommentsdto.MubaadaraId));
+                var mubaadaraType = (await _lookupsRepository.GetAsync(mubaadara.TypeId)).ArabicName;
                 var emailBody = await _templateRenderer.RenderAsync(
                                   "mubaadaraEmailLayoutTemplate", new
                                   {
@@ -93,11 +101,24 @@ namespace MOD.Pms.MubaadaraAttachments
                                       message = string.Format(mubaadaraHECommentsdto.Comment),
                                   }); ;
                 var user = await _identityUserRepository.GetAsync(mubaadaraHECommentsdto.UserIdTo);
-                await _emailSender.SendAsync(
-                                                  user.Email,
-                                                     "تمت إضافة تعليق",
-                                                     emailBody
-                                             );
+                try
+                {
+                    // A failed notification email shouldn't roll back the comment itself -
+                    // ApplicationService methods run in an implicit transactional unit of
+                    // work, so letting an SmtpException bubble up here would undo the
+                    // InsertAsync above too, even though the comment was otherwise valid.
+                    // This is what was happening whenever the configured SMTP server
+                    // (mail.mod.saf) isn't reachable, e.g. in local development.
+                    await _emailSender.SendAsync(
+                                                      user.Email,
+                                                         "تمت إضافة تعليق",
+                                                         emailBody
+                                                 );
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarning(ex, "Failed to send HEComment notification email to {Email}", user.Email);
+                }
             }
             await CreateMubaadaraWorkflow(mubaadaraHECommentsdto);
             return new CommonOperationResultDto<MubaadaraHECommentsDto>("تمت إضافة التعليق بنجاح و أرسال الاإشعار بالبريد الالكتروني", true);

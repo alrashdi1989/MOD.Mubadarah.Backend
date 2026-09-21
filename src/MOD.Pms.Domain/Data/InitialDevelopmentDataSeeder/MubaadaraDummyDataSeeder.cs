@@ -143,6 +143,18 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     existing[j].Category = Categories[j % Categories.Length];
                     await _mubaadaraRepository.UpdateAsync(existing[j]);
                 }
+
+                // Push every 5th existing record to exactly 100% complete - the original
+                // random.Next(0, 100) roll could never land on 100, so nothing was ever
+                // "done" for dashboards to display. Deterministic by index, so re-running
+                // this is a no-op.
+                for (var k = 0; k < existing.Count; k++)
+                {
+                    if (k % 5 != 0) continue;
+                    if (existing[k].CompletionPercentage == 100) continue;
+                    existing[k].CompletionPercentage = 100;
+                    await _mubaadaraRepository.UpdateAsync(existing[k]);
+                }
             }
 
             var admin = await _identityUserRepository.FindByNormalizedUserNameAsync("ADMIN");
@@ -175,7 +187,7 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     Month = (Months)(startDate.Month - 1),
                     UnitId = unitIds.Count > 0 ? unitIds[seedIndex % unitIds.Count] : null,
                     ManagerId = managerId,
-                    CompletionPercentage = random.Next(0, 100),
+                    CompletionPercentage = random.Next(0, 101),
                     Amount = random.Next(1000, 50000),
                     StartDate = startDate,
                     EndDate = startDate.AddMonths(random.Next(2, 6)),

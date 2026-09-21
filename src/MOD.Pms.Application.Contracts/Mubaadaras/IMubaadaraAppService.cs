@@ -32,9 +32,11 @@ namespace MOD.Pms.Mubaadaras
         Task<LoadResult> GetListByUserIdAsync(Guid UserId, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearIncludingChildrenAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions);
+        Task<LoadResult> GetMubaadarsListByUnitIdAndDateRangeAsync(Guid id, DateTime fromDate, DateTime toDate, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadarsListByUnitIdAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetMubaadaraAttachmentAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<List<OrganizationUnitsMubaadaraNumberDto>> GetOrganizationUnitsMubaadaraNumber(int targetYear);
+        Task<List<OrganizationUnitsMubaadaraNumberDto>> GetOrganizationUnitsMubaadaraNumberByDateRange(DateTime fromDate, DateTime toDate);
         Task<LoadResult> GetListByOrganizationUnitCodeAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<List<GroupDto>> GetMubaadarsOrganizationUnitCountByTypeQueryableAsync(Guid id, int targetYear);
         Task<List<GroupDto>> GetMubaadarsOrganizationUnitCountByStatusQueryableAsync(Guid id, int targetYear);
@@ -42,6 +44,7 @@ namespace MOD.Pms.Mubaadaras
         Task<bool> GetIsOrganizationUnitHaveParentAsync(Guid id);
         Task<bool> IsMubaadaraPenddingAsync(Guid id);
         Task<decimal> GetMubaadarsOrganizationUnitAverageCompletionPercentageByUnitIdAsync(Guid id, int targetYear);
+        Task<decimal> GetMubaadarsOrganizationUnitAverageCompletionPercentageByUnitIdAndDateRangeAsync(Guid id, DateTime fromDate, DateTime toDate);
         Task<decimal> GetMubaadarsOrganizationUnitTotalAmountByUnitIdAsync(Guid id, int targetYear);
         Task<int> GetNumberOfEndStatusOrganizationUnitMubaadaraAsync(Guid id,int targetYear);
         Task<LoadResult> GetMubaadaraMembersAsync(Guid mubaadaraId, DataSourceLoadOptions loadOptions);

@@ -8,12 +8,17 @@ using MOD.Pms.MubaadaraUpdates;
 using MOD.Pms.MubaadaraWorkflows;
 using MOD.Pms.Mubaadaras;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Guids;
 using Volo.Abp.Identity;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Saas.Tenants;
 
 namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
 {
@@ -33,6 +38,10 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
         private readonly IRepository<MubaadaraUpdate, Guid> _mubaadaraUpdateRepository;
         private readonly IRepository<MubaadaraApproval, Guid> _mubaadaraApprovalRepository;
         private readonly IIdentityUserRepository _identityUserRepository;
+        private readonly IdentityUserManager _identityUserManager;
+        private readonly ITenantRepository _tenantRepository;
+        private readonly IDataFilter _dataFilter;
+        private readonly IGuidGenerator _guidGenerator;
 
         public MubaadaraChildDataSeeder(
             IRepository<Mubaadara, Guid> mubaadaraRepository,
@@ -43,7 +52,11 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             IRepository<MubaadaraChangeRequest, Guid> mubaadaraChangeRequestRepository,
             IRepository<MubaadaraUpdate, Guid> mubaadaraUpdateRepository,
             IRepository<MubaadaraApproval, Guid> mubaadaraApprovalRepository,
-            IIdentityUserRepository identityUserRepository)
+            IIdentityUserRepository identityUserRepository,
+            IdentityUserManager identityUserManager,
+            ITenantRepository tenantRepository,
+            IDataFilter dataFilter,
+            IGuidGenerator guidGenerator)
         {
             _mubaadaraRepository = mubaadaraRepository;
             _mubaadaraDetailRepository = mubaadaraDetailRepository;
@@ -54,6 +67,114 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             _mubaadaraUpdateRepository = mubaadaraUpdateRepository;
             _mubaadaraApprovalRepository = mubaadaraApprovalRepository;
             _identityUserRepository = identityUserRepository;
+            _identityUserManager = identityUserManager;
+            _tenantRepository = tenantRepository;
+            _dataFilter = dataFilter;
+            _guidGenerator = guidGenerator;
+        }
+
+        // The member picker (identity users list) only ever surfaces users that
+        // (a) aren't named "admin" and (b) have a non-null TenantId matching a
+        // real SaaS tenant row - see PmsIdentityUserRepository.GetIdentityUsersQueryableAsync.
+        // The only accounts that exist out of the box are per-tenant "admin"
+        // bootstrap users, so that list is always empty without these.
+        private static readonly (string ServiceNumber, string ArabicName, string EnglishName, string RankArabic, string RankEnglish, int RankOrder, string PositionArabic, string PositionEnglish, string UnitArabic, string UnitEnglish)[] DummyPersonnel =
+        {
+            ("31245", "خالد بن سالم المطيري", "Khaled Al-Mutairi", "عقيد", "Colonel", 3, "رئيس قسم المشاريع", "Projects Section Head", "مديرية الهندسة", "Engineering Directorate"),
+            ("34781", "سعيد بن راشد الحارثي", "Saeed Al-Harthi", "مقدم", "Lieutenant Colonel", 4, "ضابط متابعة", "Follow-up Officer", "مديرية الإدارة", "Administration Directorate"),
+            ("38902", "فهد بن ناصر العتيبي", "Fahad Al-Otaibi", "رائد", "Major", 5, "ضابط تخطيط", "Planning Officer", "مديرية التخطيط", "Planning Directorate"),
+            ("41056", "ماجد بن علي الشمري", "Majid Al-Shammari", "نقيب", "Captain", 6, "منسق مشاريع", "Projects Coordinator", "مديرية العمليات", "Operations Directorate"),
+            ("44210", "علي بن حمد الكندي", "Ali Al-Kindi", "ملازم أول", "First Lieutenant", 7, "ضابط إداري", "Administrative Officer", "مديرية الموارد", "Resources Directorate"),
+        };
+
+        private async Task<List<Guid>> EnsureDummyPersonnelAsync()
+        {
+            var userIds = new List<Guid>();
+
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var tenantId = (await _tenantRepository.GetListAsync()).FirstOrDefault()?.Id;
+
+                foreach (var person in DummyPersonnel)
+                {
+                    var existing = await _identityUserRepository.FindByNormalizedUserNameAsync(person.ServiceNumber.ToUpperInvariant());
+                    if (existing != null)
+                    {
+                        userIds.Add(existing.Id);
+                        continue;
+                    }
+
+                    var user = new IdentityUser(_guidGenerator.Create(), person.ServiceNumber, $"{person.ServiceNumber}@mod.saf", tenantId)
+                    {
+                        Name = person.EnglishName,
+                    };
+                    user.SetIsActive(true);
+                    user.SetProperty("ServiceNumber", person.ServiceNumber);
+                    user.SetProperty("RankArabic", person.RankArabic);
+                    user.SetProperty("RankEnglish", person.RankEnglish);
+                    user.SetProperty("RankOrder", person.RankOrder);
+                    user.SetProperty("ArabicName", person.ArabicName);
+                    user.SetProperty("EnglishName", person.EnglishName);
+                    user.SetProperty("PositionArabic", person.PositionArabic);
+                    user.SetProperty("PositionEnglish", person.PositionEnglish);
+                    user.SetProperty("MainUnitArabic", person.UnitArabic);
+                    user.SetProperty("MainUnitEnglish", person.UnitEnglish);
+
+                    var result = await _identityUserManager.CreateAsync(user, "Aa123456*");
+                    if (!result.Succeeded)
+                    {
+                        continue;
+                    }
+
+                    userIds.Add(user.Id);
+                }
+            }
+
+            return userIds;
+        }
+
+        private async Task EnsureMubaadaraMembersAsync(List<Mubaadara> mubaadaras, List<Guid> dummyPersonnelIds)
+        {
+            if (!dummyPersonnelIds.Any())
+            {
+                return;
+            }
+
+            var structures = new[] { MubaadaraStructures.MubaadaraHeadManager, MubaadaraStructures.MubaadaraGeneralManager };
+
+            for (var i = 0; i < mubaadaras.Count; i++)
+            {
+                var mubaadara = mubaadaras[i];
+                var existingMemberUserIds = (await _mubaadaraMemberRepository.GetListAsync(m => m.MubaadaraId == mubaadara.Id))
+                    .Select(m => m.UserId)
+                    .ToHashSet();
+
+                if (existingMemberUserIds.Count >= 3)
+                {
+                    continue;
+                }
+
+                var structureIndex = 0;
+                for (var offset = 0; offset < dummyPersonnelIds.Count && existingMemberUserIds.Count < 3; offset++)
+                {
+                    var candidateUserId = dummyPersonnelIds[(i + offset) % dummyPersonnelIds.Count];
+                    if (existingMemberUserIds.Contains(candidateUserId))
+                    {
+                        continue;
+                    }
+
+                    await _mubaadaraMemberRepository.InsertAsync(new MubaadaraMember
+                    {
+                        MubaadaraId = mubaadara.Id,
+                        UserId = candidateUserId,
+                        MubaadaraMemberPermission = MubaadaraMemberPermission.ApprovalRequest,
+                        MubaadaraStructures = structures[structureIndex % structures.Length],
+                    }, true);
+
+                    existingMemberUserIds.Add(candidateUserId);
+                    structureIndex++;
+                }
+            }
         }
 
         [UnitOfWork]
@@ -155,6 +276,12 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
                     MubaadaraRequestsReply = MubaadaraRequestsReply.Pendding,
                 }, true);
             }
+
+            // Backfill a few named, non-admin members onto every Mubaadara (not just
+            // the newly-detailed ones above) so member pickers in the UI have more
+            // than the single "admin" row to choose from.
+            var dummyPersonnelIds = await EnsureDummyPersonnelAsync();
+            await EnsureMubaadaraMembersAsync(mubaadaras, dummyPersonnelIds);
         }
     }
 }

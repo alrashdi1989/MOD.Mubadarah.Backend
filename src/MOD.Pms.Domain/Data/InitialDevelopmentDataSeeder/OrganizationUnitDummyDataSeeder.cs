@@ -43,14 +43,58 @@ namespace MOD.Pms.Data.InitialDevelopmentDataSeeder
             ("Operations Directorate", "مديرية العمليات"),
         };
 
-        // Two child sections per parent directorate, in the same order as ParentUnitNames.
+        // Child sections per parent directorate, in the same order as ParentUnitNames.
+        // 22 sections were added on top of the original 10 to give the dashboard's
+        // By-Unit breakdown more variety to test against.
         private static readonly (string En, string Ar)[][] ChildUnitNames =
         {
-            new[] { ("Administrative Affairs Section", "قسم الشؤون الإدارية"), ("Documentation Section", "قسم التوثيق") },
-            new[] { ("Design Section", "قسم التصميم"), ("Maintenance Section", "قسم الصيانة") },
-            new[] { ("Budget Section", "قسم الميزانية"), ("Accounts Section", "قسم الحسابات") },
-            new[] { ("Recruitment Section", "قسم التوظيف"), ("Employee Relations Section", "قسم علاقات الموظفين") },
-            new[] { ("Logistics Section", "قسم اللوجستيات"), ("Field Operations Section", "قسم العمليات الميدانية") },
+            new[]
+            {
+                ("Administrative Affairs Section", "قسم الشؤون الإدارية"),
+                ("Documentation Section", "قسم التوثيق"),
+                ("Public Relations Section", "قسم العلاقات العامة"),
+                ("Legal Affairs Section", "قسم الشؤون القانونية"),
+                ("Archiving Section", "قسم الأرشفة"),
+                ("Correspondence Section", "قسم المراسلات"),
+                ("Quality Assurance Section", "قسم ضمان الجودة"),
+            },
+            new[]
+            {
+                ("Design Section", "قسم التصميم"),
+                ("Maintenance Section", "قسم الصيانة"),
+                ("Civil Works Section", "قسم الأعمال المدنية"),
+                ("Electrical Section", "قسم الكهرباء"),
+                ("Mechanical Section", "قسم الميكانيكا"),
+                ("Project Planning Section", "قسم تخطيط المشاريع"),
+                ("Surveying Section", "قسم المساحة"),
+            },
+            new[]
+            {
+                ("Budget Section", "قسم الميزانية"),
+                ("Accounts Section", "قسم الحسابات"),
+                ("Procurement Section", "قسم المشتريات"),
+                ("Auditing Section", "قسم التدقيق"),
+                ("Payroll Section", "قسم الرواتب"),
+                ("Treasury Section", "قسم الخزينة"),
+            },
+            new[]
+            {
+                ("Recruitment Section", "قسم التوظيف"),
+                ("Employee Relations Section", "قسم علاقات الموظفين"),
+                ("Training Section", "قسم التدريب"),
+                ("Performance Management Section", "قسم إدارة الأداء"),
+                ("Compensation Section", "قسم التعويضات"),
+                ("Wellness Section", "قسم الرفاهية"),
+            },
+            new[]
+            {
+                ("Logistics Section", "قسم اللوجستيات"),
+                ("Field Operations Section", "قسم العمليات الميدانية"),
+                ("Fleet Management Section", "قسم إدارة الأسطول"),
+                ("Warehouse Section", "قسم المستودعات"),
+                ("Safety Section", "قسم السلامة"),
+                ("Support Services Section", "قسم خدمات الدعم"),
+            },
         };
 
         [UnitOfWork]

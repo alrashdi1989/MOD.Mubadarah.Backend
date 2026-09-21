@@ -11,6 +11,7 @@ using MOD.Pms.Mubaadaras;
 using MOD.Pms.MubaadaraWorkflows;
 using Volo.Abp.Identity;
 using Volo.Abp.Data;
+using Volo.Abp.MultiTenancy;
 
 
 namespace MOD.Pms.MubaadaraApprovals
@@ -24,6 +25,7 @@ namespace MOD.Pms.MubaadaraApprovals
         private readonly IRepository<MubaadarasWorkflow, Guid> _mubaadaraWorkflowRepository;
         private readonly IStringLocalizer<PmsResource> _l;
         private readonly IIdentityUserRepository _identityUserRepository;
+        private readonly IDataFilter _dataFilter;
 
         public MubaadaraApprovalsAppService(
             IRepository<MubaadaraApproval, Guid> mubaadaraApprovalRepository,
@@ -31,6 +33,7 @@ namespace MOD.Pms.MubaadaraApprovals
             IRepository<MubaadaraChangeRequest, Guid> mubaadaraChangeRequestRepository,
             IRepository<Mubaadara, Guid> mubaadaraRepository,
             IIdentityUserRepository identityUserRepository,
+            IDataFilter dataFilter,
             IStringLocalizer<PmsResource> l)
         {
             _mubaadaraApprovalRepository = mubaadaraApprovalRepository;
@@ -38,6 +41,7 @@ namespace MOD.Pms.MubaadaraApprovals
             _mubaadaraRepository = mubaadaraRepository;
             _mubaadaraWorkflowRepository = mubaadaraWorkflowRepository;
             _identityUserRepository = identityUserRepository;
+            _dataFilter = dataFilter;
             _l = l;
         }
 
@@ -139,8 +143,15 @@ namespace MOD.Pms.MubaadaraApprovals
         public async Task<CommonOperationResultDto<MubaadaraApprovalInput>> CreateMubaadaraWorkflow(Guid reffrenceId,  Guid userId, Guid newApprovalId)
         {
             var mubaadaraChangeRequests = await _mubaadaraChangeRequestRepository.GetAsync(reffrenceId);
-            var UserFromData = await _identityUserRepository.GetAsync((Guid)CurrentUser.Id);//current user id
-            var UserToData = await _identityUserRepository.GetAsync(userId);
+            Volo.Abp.Identity.IdentityUser UserFromData;
+            Volo.Abp.Identity.IdentityUser UserToData;
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                // The sender and the picked receiver can belong to different tenants
+                // than the current one, so this lookup must not be tenant-filtered.
+                UserFromData = await _identityUserRepository.GetAsync((Guid)CurrentUser.Id);//current user id
+                UserToData = await _identityUserRepository.GetAsync(userId);
+            }
             var mubaadarasWorkflow = new MubaadarasWorkflow()
             {
                 MubaadaraId = (Guid)mubaadaraChangeRequests.MubaadaraId,

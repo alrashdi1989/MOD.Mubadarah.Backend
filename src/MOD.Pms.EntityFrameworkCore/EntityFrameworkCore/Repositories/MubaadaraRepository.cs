@@ -81,6 +81,38 @@ namespace MOD.Pms.EntityFrameworkCore.Repositories
                 return organizationUnitsMubaadaraNumberDto;
             }
         }
+
+        public async Task<IQueryable<OrganizationUnitsMubaadaraNumberDto>> GetOrganizationUnitsMubaadaraNumberByDateRange(DateTime fromDate, DateTime toDate)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var dbContext = await GetDbContextAsync();
+                var organizationUnits = dbContext.OrganizationUnits;
+
+                var mubaadaras = dbContext.Mubaadaras;
+
+                var query = from mubaadara in mubaadaras
+                            join organizationUnit in organizationUnits on mubaadara.UnitId equals organizationUnit.Id
+                            // Overlap: a mubaadara counts for a period if it was active at any
+                            // point during it. Real mubaadara records run 2+ months at a
+                            // minimum, so strict containment (start and end both inside the
+                            // period) can never match anything narrower than that - see the
+                            // commit that reverted this back after it shipped as containment.
+                            where mubaadara.StartDate <= toDate && mubaadara.EndDate >= fromDate
+                            select new { id = organizationUnit.Id, code = organizationUnit.Code, arabicOrganizationUnitName = organizationUnit.GetProperty("ArabicName", organizationUnit.DisplayName) };
+                var organizationUnitsMubaadaraNumberDto = from data in query
+                                                          group data by data.id into g
+
+                                                          select new OrganizationUnitsMubaadaraNumberDto
+                                                          {
+                                                              Id = g.First().id,
+                                                              ArabicName = g.First().arabicOrganizationUnitName,
+                                                              Code = g.First().code,
+                                                              Count = g.Count(),
+                                                          };
+                return organizationUnitsMubaadaraNumberDto;
+            }
+        }
         public async Task<IQueryable<GroupDte>> GetMubaadarsOrganizationUnitCountByTypeQueryableAsync(Guid organizationUnitId, int targetYear)
         {
             using (_dataFilter.Disable<IMultiTenant>())
@@ -179,6 +211,20 @@ namespace MOD.Pms.EntityFrameworkCore.Repositories
                 decimal totalCompletionPercentage = mubaadaras.Sum(c => c.CompletionPercentage);
                 decimal mubaadarasTotal = mubaadaras.Count();
                 var averageCompletionPercentage = totalCompletionPercentage / mubaadarasTotal;
+                return averageCompletionPercentage;
+            }
+        }
+
+        public async Task<decimal> GetMubaadarsOrganizationUnitAverageCompletionPercentageByUnitIdAndDateRangeAsync(Guid organizationUnitId, DateTime fromDate, DateTime toDate)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var dbContext = await GetDbContextAsync();
+                var mubaadaras = dbContext.Mubaadaras.AsQueryable().Where(c => c.UnitId == organizationUnitId && c.StartDate <= toDate && c.EndDate >= fromDate);
+
+                decimal totalCompletionPercentage = mubaadaras.Sum(c => c.CompletionPercentage);
+                decimal mubaadarasTotal = mubaadaras.Count();
+                var averageCompletionPercentage = mubaadarasTotal > 0 ? totalCompletionPercentage / mubaadarasTotal : 0;
                 return averageCompletionPercentage;
             }
         }

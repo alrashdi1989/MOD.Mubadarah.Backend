@@ -273,6 +273,17 @@ namespace MOD.Pms.Mubaadaras
             }
         }
 
+        public async Task<LoadResult> GetMubaadarsListByUnitIdAndDateRangeAsync(Guid id, DateTime fromDate, DateTime toDate, DataSourceLoadOptions loadOptions)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var config = ObjectMapper.AutoObjectMappingProvider.GetMapper().ConfigurationProvider;
+                var source = (await _mubaadaraRepository.GetQueryableAsync()).Where(c => c.UnitId == id && c.StartDate <= toDate && c.EndDate >= fromDate);
+                var result = await DataSourceLoader.LoadAsync(source.ProjectTo<MubaadaraDto>(config), loadOptions);
+                return result;
+            }
+        }
+
         public async Task<LoadResult> GetMubaadarsListByUnitIdAndTargetYearIncludingChildrenAsync(Guid id, int targetYear, DataSourceLoadOptions loadOptions)
         {
             using (_dataFilter.Disable<IMultiTenant>())
@@ -317,6 +328,15 @@ namespace MOD.Pms.Mubaadaras
             using (_dataFilter.Disable<IMultiTenant>())
             {
                 var organizationUnitsMubaadaraNumberDto = await _mubaadaraRepository.GetOrganizationUnitsMubaadaraNumber(targetYear);
+                return organizationUnitsMubaadaraNumberDto.ToList();
+            }
+        }
+
+        public async Task<List<OrganizationUnitsMubaadaraNumberDto>> GetOrganizationUnitsMubaadaraNumberByDateRange(DateTime fromDate, DateTime toDate)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var organizationUnitsMubaadaraNumberDto = await _mubaadaraRepository.GetOrganizationUnitsMubaadaraNumberByDateRange(fromDate, toDate);
                 return organizationUnitsMubaadaraNumberDto.ToList();
             }
         }
@@ -383,6 +403,15 @@ namespace MOD.Pms.Mubaadaras
                     return 0;
                 }
 
+            }
+        }
+
+        public async Task<decimal> GetMubaadarsOrganizationUnitAverageCompletionPercentageByUnitIdAndDateRangeAsync(Guid organizationUnitId, DateTime fromDate, DateTime toDate)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var source = await _mubaadaraRepository.GetMubaadarsOrganizationUnitAverageCompletionPercentageByUnitIdAndDateRangeAsync(organizationUnitId, fromDate, toDate);
+                return source > 0 ? source : 0;
             }
         }
 
