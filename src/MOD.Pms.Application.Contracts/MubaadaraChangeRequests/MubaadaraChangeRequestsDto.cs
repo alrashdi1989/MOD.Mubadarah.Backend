@@ -35,6 +35,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
        public int? CompletionPercentage { get; set; }
         public Guid? StatusId { get; set; }
         public bool IsHaveApprovealRow { get; set; }
+        public Guid? UserIdTo { get; set; }
 
     }
 
@@ -48,6 +49,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
         public Guid UserIdFrom { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public DateTime? RequestDate { get; set; }
+        public string? DirectorateName { get; set; }
     }
 
     //public class ChallangeWorkflowInput

@@ -19,6 +19,9 @@ using System.Collections.Generic;
 using MOD.Pms.Mubaadaras;
 using MOD.Pms.MubaadaraWorkflows;
 using MOD.Pms.MubaadaraApprovals;
+using Volo.Abp.Identity;
+using Volo.Abp.Data;
+using Volo.Abp.MultiTenancy;
 
 namespace MOD.Pms.MubaadaraChangeRequests
 {
@@ -29,20 +32,29 @@ namespace MOD.Pms.MubaadaraChangeRequests
         private readonly IRepository<MubaadaraApproval, Guid> _mubaadaraApprovalRepository;
         private readonly IMubaadaraRepository _mubaadaraRepository;
         private readonly ILookupRepository _lookupsRepository;
+        private readonly IOrganizationUnitRepository _organizationUnitRepository;
+        private readonly IDataFilter _dataFilter;
         private readonly IStringLocalizer<PmsResource> _l;
+        private readonly IMubaadaraApprovalsAppService _mubaadaraApprovalsAppService;
 
         public MubaadaraChangeRequestsService(
             IRepository<MubaadaraChangeRequest, Guid> mubaadaraChangeRequestRepository,
             IRepository<MubaadaraApproval, Guid> mubaadaraApprovalRepository,
-            ILookupRepository lookupsRepository, 
+            ILookupRepository lookupsRepository,
             IMubaadaraRepository mubaadaraRepository,
+            IOrganizationUnitRepository organizationUnitRepository,
+            IDataFilter dataFilter,
+            IMubaadaraApprovalsAppService mubaadaraApprovalsAppService,
             IStringLocalizer<PmsResource> l
             )
         {
             _mubaadaraChangeRequestRepository = mubaadaraChangeRequestRepository;
             _mubaadaraRepository = mubaadaraRepository;
             _lookupsRepository = lookupsRepository;
+            _organizationUnitRepository = organizationUnitRepository;
+            _dataFilter = dataFilter;
             _mubaadaraApprovalRepository = mubaadaraApprovalRepository;
+            _mubaadaraApprovalsAppService = mubaadaraApprovalsAppService;
             _l = l;
         }
 
@@ -80,7 +92,17 @@ namespace MOD.Pms.MubaadaraChangeRequests
                 mubaadaraChangeRequests.NewEndDate = input.EndDate;
                 mubaadaraChangeRequests.MubaadaraRequests = MubaadaraRequests.ExtensionApproved;
             }
-            await _mubaadaraChangeRequestRepository.InsertAsync(mubaadaraChangeRequests);
+            await _mubaadaraChangeRequestRepository.InsertAsync(mubaadaraChangeRequests, autoSave: true);
+
+            if (input.UserIdTo.HasValue && input.UserIdTo != Guid.Empty)
+            {
+                await _mubaadaraApprovalsAppService.CreateAsync(new MubaadaraApprovalInput
+                {
+                    ReffrenceId = mubaadaraChangeRequests.Id,
+                    UserId = input.UserIdTo.Value,
+                });
+            }
+
             return new CommonOperationResultDto<MubaadaraChangeRequestsInput>(_l["Message"], true);
 
         }
@@ -195,6 +217,69 @@ namespace MOD.Pms.MubaadaraChangeRequests
            
 
             return result;
+        }
+
+        // Same shape as GetListOfMubaadaraChangeRerquestWithItIsApprovedAsync but across every
+        // Mubaadara (not just one), plus each row's directorate name - used by the standalone
+        // "سجلات التغيير" (Change Logs) page. Resolves the name the same way
+        // MubaadaraRepository.GetOrganizationUnitsMubaadaraNumberByDateRange already does
+        // (ArabicName extra property, falling back to DisplayName) and, critically, the same
+        // IMultiTenant filter disabled around the Mubaadara/OrganizationUnit join - without
+        // that, OrganizationUnit rows outside the current request's tenant scope silently
+        // don't match and the column comes back empty, even though the join/lookup logic
+        // itself is otherwise correct.
+        public async Task<LoadResult> GetListOfAllMubaadaraChangeRequestsWithApprovedAsync(DataSourceLoadOptions loadOptions)
+        {
+            using (_dataFilter.Disable<IMultiTenant>())
+            {
+                var changeRequests = (await _mubaadaraChangeRequestRepository.GetQueryableAsync());
+                var approvals = (await _mubaadaraApprovalRepository.GetQueryableAsync()).Where(c => c.MubaadaraRequestsReply == MubaadaraRequestsReply.Approved);
+
+                var joined = (
+                    from ChangeRequest in changeRequests
+                    join Approval in approvals on ChangeRequest.Id equals Approval.ReffrenceId
+                    select new
+                    {
+                        ChangeRequest.Id,
+                        ChangeRequest.MubaadaraId,
+                        ChangeRequest.MubaadaraRequests,
+                        ChangeRequest.PreviousValue,
+                        ChangeRequest.NewValue,
+                        Approval.UserId,
+                        UserIdFrom = Approval.CreatorId,
+                        Approval.CreationTime,
+                        Approval.ActionlDate,
+                    }
+                ).ToList();
+
+                var mubaadaras = await _mubaadaraRepository.GetListAsync();
+                var mubaadaraUnitById = mubaadaras.ToDictionary(m => m.Id, m => m.UnitId);
+
+                var units = await _organizationUnitRepository.GetListAsync();
+                var unitNameById = units.ToDictionary(u => u.Id, u => u.GetProperty("ArabicName", u.DisplayName));
+
+                var result = joined.Select(x => new MubaadaraChangeRequestsApprovalDto
+                {
+                    MubaadaraChangeRequestId = x.Id,
+                    MubaadaraRequests = x.MubaadaraRequests,
+                    UserIdTo = x.UserId,
+                    UserIdFrom = x.UserIdFrom ?? Guid.Empty,
+                    PreviousValue = x.PreviousValue,
+                    NewValue = x.NewValue,
+                    RequestDate = x.CreationTime,
+                    ApprovalDate = x.ActionlDate,
+                    DirectorateName = mubaadaraUnitById.TryGetValue(x.MubaadaraId, out var unitId) && unitId.HasValue && unitNameById.TryGetValue(unitId.Value, out var name)
+                        ? name
+                        : null,
+                });
+
+                loadOptions.Sort = new[] {
+                 new SortingInfo { Desc = true, Selector = "approvalDate" }
+                 };
+
+                var loadResult = DataSourceLoader.Load(result, loadOptions);
+                return loadResult;
+            }
         }
 
         public async Task<int> GetIsChangeRerquestHaveApproval(Guid id)

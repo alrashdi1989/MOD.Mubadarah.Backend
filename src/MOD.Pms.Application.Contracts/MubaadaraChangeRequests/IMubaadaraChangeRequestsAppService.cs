@@ -18,6 +18,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
         Task<MubaadaraChangeRequestsDto> GetAsync(Guid id);
         Task<LoadResult> GetListByMubaadaraIdAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task<LoadResult> GetListOfMubaadaraChangeRerquestWithItIsApprovedAsync(Guid id, DataSourceLoadOptions loadOptions);
+        Task<LoadResult> GetListOfAllMubaadaraChangeRequestsWithApprovedAsync(DataSourceLoadOptions loadOptions);
         Task<int> GetIsChangeRerquestHaveApproval(Guid id);
         Task<LoadResult> GetListOfApprovelsByChangeRerquestIdAsync(Guid id, DataSourceLoadOptions loadOptions);
         Task DeleteAsync(Guid id);
