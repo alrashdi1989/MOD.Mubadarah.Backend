@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using static MOD.Pms.Permissions.PmsPermissions;
 using MOD.Pms.Repositories;
 using System.Collections.Generic;
+using System.Globalization;
 using MOD.Pms.Mubaadaras;
 using MOD.Pms.MubaadaraWorkflows;
 using MOD.Pms.MubaadaraApprovals;
@@ -33,6 +34,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
         private readonly IMubaadaraRepository _mubaadaraRepository;
         private readonly ILookupRepository _lookupsRepository;
         private readonly IOrganizationUnitRepository _organizationUnitRepository;
+        private readonly IIdentityUserRepository _identityUserRepository;
         private readonly IDataFilter _dataFilter;
         private readonly IStringLocalizer<PmsResource> _l;
         private readonly IMubaadaraApprovalsAppService _mubaadaraApprovalsAppService;
@@ -43,6 +45,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
             ILookupRepository lookupsRepository,
             IMubaadaraRepository mubaadaraRepository,
             IOrganizationUnitRepository organizationUnitRepository,
+            IIdentityUserRepository identityUserRepository,
             IDataFilter dataFilter,
             IMubaadaraApprovalsAppService mubaadaraApprovalsAppService,
             IStringLocalizer<PmsResource> l
@@ -52,6 +55,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
             _mubaadaraRepository = mubaadaraRepository;
             _lookupsRepository = lookupsRepository;
             _organizationUnitRepository = organizationUnitRepository;
+            _identityUserRepository = identityUserRepository;
             _dataFilter = dataFilter;
             _mubaadaraApprovalRepository = mubaadaraApprovalRepository;
             _mubaadaraApprovalsAppService = mubaadaraApprovalsAppService;
@@ -258,6 +262,16 @@ namespace MOD.Pms.MubaadaraChangeRequests
                 var units = await _organizationUnitRepository.GetListAsync();
                 var unitNameById = units.ToDictionary(u => u.Id, u => u.GetProperty("ArabicName", u.DisplayName));
 
+                // The "approved by" column can't go through the usual user lookup here:
+                // that lookup (pms-identity-user/collection-by-load-options) inner-joins
+                // Tenants and excludes the admin account, so approvers who are host users
+                // - or admin itself - resolve to nothing and the cell renders blank. This
+                // page spans every unit, so it hits those users constantly. Resolved to a
+                // ready-made display name here instead, exactly like DirectorateName above.
+                var approverIds = joined.Select(x => x.UserId).Distinct().ToList();
+                var approvers = await _identityUserRepository.GetListByIdsAsync(approverIds);
+                var approverNameById = approvers.ToDictionary(u => u.Id, BuildUserDisplayName);
+
                 var result = joined.Select(x => new MubaadaraChangeRequestsApprovalDto
                 {
                     MubaadaraChangeRequestId = x.Id,
@@ -271,6 +285,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
                     DirectorateName = mubaadaraUnitById.TryGetValue(x.MubaadaraId, out var unitId) && unitId.HasValue && unitNameById.TryGetValue(unitId.Value, out var name)
                         ? name
                         : null,
+                    ApprovedByName = approverNameById.TryGetValue(x.UserId, out var approverName) ? approverName : null,
                 });
 
                 loadOptions.Sort = new[] {
@@ -280,6 +295,24 @@ namespace MOD.Pms.MubaadaraChangeRequests
                 var loadResult = DataSourceLoader.Load(result, loadOptions);
                 return loadResult;
             }
+        }
+
+        // Same "Rank / Name / Position" shape the user lookup shows elsewhere, read
+        // off the user's extra properties. Falls back to whatever parts exist, and
+        // finally to the user name, so host/admin accounts (which carry none of the
+        // military extra properties) still show something rather than an empty cell.
+        private static string BuildUserDisplayName(IdentityUser user)
+        {
+            var isArabic = CultureInfo.CurrentUICulture.Name != "en-US";
+
+            var parts = new[]
+            {
+                user.GetProperty<string>(isArabic ? "RankArabic" : "RankEnglish"),
+                user.GetProperty<string>(isArabic ? "ArabicName" : "EnglishName"),
+                user.GetProperty<string>(isArabic ? "PositionArabic" : "PositionEnglish"),
+            }.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+
+            return parts.Count > 0 ? string.Join(" / ", parts) : user.UserName;
         }
 
         public async Task<int> GetIsChangeRerquestHaveApproval(Guid id)

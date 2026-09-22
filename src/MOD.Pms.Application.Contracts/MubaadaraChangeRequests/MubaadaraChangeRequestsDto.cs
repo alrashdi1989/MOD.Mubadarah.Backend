@@ -50,6 +50,7 @@ namespace MOD.Pms.MubaadaraChangeRequests
         public DateTime? ApprovalDate { get; set; }
         public DateTime? RequestDate { get; set; }
         public string? DirectorateName { get; set; }
+        public string? ApprovedByName { get; set; }
     }
 
     //public class ChallangeWorkflowInput
