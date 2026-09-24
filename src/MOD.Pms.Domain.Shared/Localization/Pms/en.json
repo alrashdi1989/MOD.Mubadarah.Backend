@@ -240,6 +240,7 @@
     "WorkflowArchive": "ARCHIVE",
     "Menu:MubaadaraWorkflow": "Tasks",
     "Menu:ChangeLogs": "Change Logs",
+    "Menu:UserManual": "User Manual",
     "Unit": "Unit",
     "WorkflowWelcomeDescription": "Track received and sent tasks, along with the workflow archive for your initiatives, all in one place.",
     "IdentityManagementTitle": "Identity Management",
