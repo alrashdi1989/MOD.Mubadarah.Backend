@@ -1,0 +1,4 @@
+2026-09-09 15:33:19.087 +04:00 [ERR] ABP-LIC-ERROR - License check failed for 'Volo.Saas.Domain-v8.0.1.0'.
+
+For more information, contact to license@abp.io.
+2026-09-09 15:33:19.086 +04:00 [ERR] ABP-LIC-0020 - License code not found! Ensure that your appsettings.json or appsettings.secrets.json has "AbpLicenseCode" key with your license code.
